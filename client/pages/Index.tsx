@@ -31,7 +31,7 @@ export default function Index() {
       <main className="flex-1 flex flex-col">
         {/* Hero Section */}
         <section className="px-6 py-4 md:px-8 md:py-6">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 bg-gradient-azure bg-clip-text text-transparent px-8 md:px-16">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 bg-gradient-azure bg-clip-text text-transparent px-8 md:px-16">
             Less weed. More you.
           </h1>
           <p className="text-gray-300 text-base md:text-lg max-w-2xl px-8 md:px-16">
