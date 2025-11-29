@@ -22,7 +22,7 @@ export default function Index() {
           alt="Unbaked logo"
           className="h-36 w-auto"
         />
-        <button className="bg-white text-black px-6 py-2 rounded-full font-semibold text-sm md:text-base hover:bg-gray-100 transition-colors -mr-6 md:-mr-8">
+        <button className="bg-white text-black px-6 py-2 rounded-full font-semibold text-sm md:text-base hover:bg-gray-100 transition-colors mr-4">
           Join waitlist
         </button>
       </header>
