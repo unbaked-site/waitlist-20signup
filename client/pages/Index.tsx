@@ -1,62 +1,124 @@
-import { DemoResponse } from "@shared/api";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function Index() {
-  const [exampleFromServer, setExampleFromServer] = useState("");
-  // Fetch users on component mount
-  useEffect(() => {
-    fetchDemo();
-  }, []);
+  const [email, setEmail] = useState("");
+  const [submitted, setSubmitted] = useState(false);
 
-  // Example of how to fetch data from the server (if needed)
-  const fetchDemo = async () => {
-    try {
-      const response = await fetch("/api/demo");
-      const data = (await response.json()) as DemoResponse;
-      setExampleFromServer(data.message);
-    } catch (error) {
-      console.error("Error fetching hello:", error);
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email) {
+      setSubmitted(true);
+      setEmail("");
+      setTimeout(() => setSubmitted(false), 3000);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200">
-      <div className="text-center">
-        {/* TODO: FUSION_GENERATION_APP_PLACEHOLDER replace everything here with the actual app! */}
-        <h1 className="text-2xl font-semibold text-slate-800 flex items-center justify-center gap-3">
-          <svg
-            className="animate-spin h-8 w-8 text-slate-400"
-            viewBox="0 0 50 50"
-          >
-            <circle
-              className="opacity-30"
-              cx="25"
-              cy="25"
-              r="20"
-              stroke="currentColor"
-              strokeWidth="5"
-              fill="none"
-            />
-            <circle
-              className="text-slate-600"
-              cx="25"
-              cy="25"
-              r="20"
-              stroke="currentColor"
-              strokeWidth="5"
-              fill="none"
-              strokeDasharray="100"
-              strokeDashoffset="75"
-            />
-          </svg>
-          Generating your app...
-        </h1>
-        <p className="mt-4 text-slate-600 max-w-md">
-          Watch the chat on the left for updates that might need your attention
-          to finish generating
-        </p>
-        <p className="mt-4 hidden max-w-md">{exampleFromServer}</p>
-      </div>
+    <div className="min-h-screen bg-black flex flex-col">
+      {/* Header */}
+      <header className="w-full px-6 py-6 flex justify-between items-center md:px-8 md:py-8">
+        <div className="text-white text-2xl font-bold tracking-tight">
+          unbaked.
+        </div>
+        <button className="bg-white text-black px-6 py-2 rounded-full font-semibold text-sm md:text-base hover:bg-gray-100 transition-colors">
+          Join waitlist
+        </button>
+      </header>
+
+      {/* Main Content */}
+      <main className="flex-1 flex flex-col">
+        {/* Hero Section */}
+        <section className="px-6 py-8 md:px-8 md:py-12">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
+            <span className="text-cyan-400">Less weed.</span> More you.
+          </h1>
+          <p className="text-gray-300 text-base md:text-lg max-w-2xl">
+            Join the waitlist and get 3 months free access to all features when we launch — no card required.
+          </p>
+        </section>
+
+        {/* Phone Mockup Section */}
+        <section className="px-6 md:px-8 py-8 md:py-12 flex justify-center">
+          <div className="relative w-full max-w-xs">
+            {/* Simple phone frame representation */}
+            <div className="bg-gray-900 rounded-3xl p-3 shadow-2xl border border-gray-800">
+              <div className="bg-black rounded-2xl overflow-hidden aspect-video flex items-center justify-center">
+                <div className="text-center">
+                  <div className="text-cyan-400 text-sm font-semibold mb-2">
+                    30-Day Detox Progress
+                  </div>
+                  <div className="w-24 h-24 mx-auto rounded-full border-8 border-cyan-400 flex items-center justify-center">
+                    <div>
+                      <div className="text-white text-2xl font-bold">76%</div>
+                      <div className="text-gray-400 text-xs">Recovered</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Waitlist Count Section */}
+        <section className="px-6 md:px-8 py-6 flex justify-center">
+          <div className="border border-gray-700 rounded-full px-6 py-3 flex items-center gap-3 bg-gray-900 bg-opacity-50">
+            <div className="flex -space-x-2">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 border border-gray-700"></div>
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 border border-gray-700"></div>
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-pink-400 to-pink-600 border border-gray-700"></div>
+            </div>
+            <span className="text-white text-sm font-medium">
+              Join 284 others on the waitlist
+            </span>
+          </div>
+        </section>
+
+        {/* Signup Form Section */}
+        <section className="px-6 md:px-8 py-12 flex justify-center">
+          <div className="w-full max-w-md">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center">
+              Join the waitlist
+            </h2>
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-6 py-4 bg-gray-800 border border-gray-700 rounded-full text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 transition-colors"
+                required
+              />
+              <button
+                type="submit"
+                className="w-full py-4 bg-white text-black rounded-full font-bold text-base md:text-lg hover:bg-gray-100 transition-colors"
+              >
+                Claim 3 Months Free
+              </button>
+            </form>
+
+            {submitted && (
+              <p className="text-cyan-400 text-center mt-4 text-sm">
+                Thanks for joining! Check your email.
+              </p>
+            )}
+          </div>
+        </section>
+
+        {/* Footer */}
+        <footer className="px-6 md:px-8 py-8 border-t border-gray-800 text-center text-gray-500 text-sm">
+          <p>
+            Unbaked © 2025 |{" "}
+            <a href="#" className="text-white hover:text-cyan-400 transition-colors">
+              Privacy
+            </a>{" "}
+            |{" "}
+            <a href="#" className="text-white hover:text-cyan-400 transition-colors">
+              Terms
+            </a>
+          </p>
+        </footer>
+      </main>
     </div>
   );
 }
