@@ -17,9 +17,11 @@ export default function Index() {
     <div className="min-h-screen bg-black flex flex-col">
       {/* Header */}
       <header className="w-full px-6 py-6 flex justify-between items-center md:px-8 md:py-8">
-        <div className="text-white text-2xl font-bold tracking-tight">
-          unbaked.
-        </div>
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets%2Fa79f59e10394423cbf0b2f4969bf9328%2Fa208ab03690c419a893f87deb701fbc2?format=webp&width=800"
+          alt="Unbaked logo"
+          className="h-8 w-auto"
+        />
         <button className="bg-white text-black px-6 py-2 rounded-full font-semibold text-sm md:text-base hover:bg-gray-100 transition-colors">
           Join waitlist
         </button>
