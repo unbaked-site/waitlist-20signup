@@ -30,11 +30,11 @@ export default function Index() {
       {/* Main Content */}
       <main className="flex-1 flex flex-col">
         {/* Hero Section */}
-        <section className="px-6 py-8 md:px-8 md:py-12">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 bg-gradient-azure bg-clip-text text-transparent">
+        <section className="px-6 py-4 md:px-8 md:py-6">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 bg-gradient-azure bg-clip-text text-transparent px-4 md:px-8">
             Less weed. More you.
           </h1>
-          <p className="text-gray-300 text-base md:text-lg max-w-2xl">
+          <p className="text-gray-300 text-base md:text-lg max-w-2xl px-4 md:px-8">
             Join the waitlist and get 3 months free access to all features when we launch — no card required.
           </p>
         </section>
