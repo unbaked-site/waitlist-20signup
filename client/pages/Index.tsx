@@ -39,23 +39,12 @@ export default function Index() {
 
         {/* Phone Mockup Section */}
         <section className="px-6 md:px-8 py-8 md:py-12 flex justify-center">
-          <div className="relative w-full max-w-xs">
-            {/* Simple phone frame representation */}
-            <div className="bg-gray-900 rounded-3xl p-3 shadow-2xl border border-gray-800">
-              <div className="bg-black rounded-2xl overflow-hidden aspect-video flex items-center justify-center">
-                <div className="text-center">
-                  <div className="text-cyan-400 text-sm font-semibold mb-2">
-                    30-Day Detox Progress
-                  </div>
-                  <div className="w-24 h-24 mx-auto rounded-full border-8 border-cyan-400 flex items-center justify-center">
-                    <div>
-                      <div className="text-white text-2xl font-bold">76%</div>
-                      <div className="text-gray-400 text-xs">Recovered</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div className="relative w-full max-w-sm">
+            <img
+              src="https://cdn.builder.io/api/v1/image/assets%2Fa79f59e10394423cbf0b2f4969bf9328%2F645089bea62c4c7aa8c986f41b8635d8?format=webp&width=800"
+              alt="Unbaked app interface showing 30-Day Detox Progress with 76% recovery"
+              className="w-full h-auto"
+            />
           </div>
         </section>
 
