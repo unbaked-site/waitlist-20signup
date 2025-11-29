@@ -22,9 +22,9 @@ export default function Index() {
           alt="Unbaked logo"
           className="h-36 w-auto"
         />
-        <button className="bg-white text-black px-6 py-2 rounded-full font-semibold text-sm md:text-base hover:bg-gray-100 transition-colors mr-4">
+        <a href="#waitlist-form" className="bg-white text-black px-6 py-2 rounded-full font-semibold text-sm md:text-base hover:bg-gray-100 transition-colors mr-4 inline-block">
           Join waitlist
-        </button>
+        </a>
       </header>
 
       {/* Main Content */}
@@ -34,7 +34,7 @@ export default function Index() {
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 bg-gradient-azure bg-clip-text text-transparent px-8 md:px-16">
             Less weed. More you.
           </h1>
-          <p className="text-gray-300 text-center text-[11px] md:text-xs max-w-2xl px-8 md:px-16 leading-tight">
+          <p className="text-gray-300 text-center text-[10px] md:text-[11px] max-w-2xl px-8 md:px-16 leading-tight">
             Join the waitlist and get 3 months free access to all features when we launch — no card required.
           </p>
         </section>
@@ -65,7 +65,7 @@ export default function Index() {
         </section>
 
         {/* Signup Form Section */}
-        <section className="px-6 md:px-8 py-12 flex justify-center">
+        <section id="waitlist-form" className="px-6 md:px-8 py-12 flex justify-center">
           <div className="w-full max-w-md">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center">
               Join the waitlist
