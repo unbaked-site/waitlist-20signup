@@ -41,7 +41,7 @@ export default function Index() {
 
         {/* Phone Mockup Section */}
         <section className="px-6 md:px-8 py-8 md:py-12 flex justify-center">
-          <div className="relative w-full max-w-sm">
+          <div className="relative w-full max-w-xs">
             <img
               src="https://cdn.builder.io/api/v1/image/assets%2Fa79f59e10394423cbf0b2f4969bf9328%2F645089bea62c4c7aa8c986f41b8635d8?format=webp&width=800"
               alt="Unbaked app interface showing 30-Day Detox Progress with 76% recovery"
