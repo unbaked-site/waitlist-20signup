@@ -34,7 +34,7 @@ export default function Index() {
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 bg-gradient-azure bg-clip-text text-transparent px-8 md:px-16">
             Less weed. More you.
           </h1>
-          <p className="text-gray-300 text-[11px] md:text-xs max-w-2xl px-8 md:px-16 leading-tight">
+          <p className="text-gray-300 text-[10px] md:text-[11px] max-w-2xl px-8 md:px-16 leading-tight">
             Join the waitlist and get 3 months free access to all features when we launch — no card required.
           </p>
         </section>
