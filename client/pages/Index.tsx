@@ -29,8 +29,8 @@ export default function Index() {
       <main className="flex-1 flex flex-col">
         {/* Hero Section */}
         <section className="px-6 py-8 md:px-8 md:py-12">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
-            <span className="text-cyan-400">Less weed.</span> More you.
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
+            <span className="bg-gradient-azure bg-clip-text text-transparent">Less weed.</span> More you.
           </h1>
           <p className="text-gray-300 text-base md:text-lg max-w-2xl">
             Join the waitlist and get 3 months free access to all features when we launch — no card required.
