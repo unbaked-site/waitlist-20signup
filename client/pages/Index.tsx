@@ -16,7 +16,7 @@ export default function Index() {
   return (
     <div className="min-h-screen bg-black flex flex-col">
       {/* Header */}
-      <header className="w-full px-6 py-0 flex justify-between items-center md:px-8 md:py-0 -mt-4">
+      <header className="w-full px-6 py-0 flex justify-between items-center md:px-8 md:py-0 -mt-8">
         <img
           src="https://cdn.builder.io/api/v1/image/assets%2Fa79f59e10394423cbf0b2f4969bf9328%2Fa208ab03690c419a893f87deb701fbc2?format=webp&width=800"
           alt="Unbaked logo"
