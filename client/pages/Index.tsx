@@ -3,10 +3,12 @@ import { useState } from "react";
 export default function Index() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [waitlistCount, setWaitlistCount] = useState(284);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (email) {
+      setWaitlistCount(prev => prev + 1);
       setSubmitted(true);
       setEmail("");
       setTimeout(() => setSubmitted(false), 3000);
