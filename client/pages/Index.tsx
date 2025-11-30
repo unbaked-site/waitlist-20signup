@@ -59,11 +59,23 @@ export default function Index() {
         <section className="px-6 md:px-8 py-6 flex justify-center">
           <div className="border border-gray-700 rounded-full px-6 py-3 flex items-center gap-3 bg-gray-900 bg-opacity-50">
             <div className="flex -space-x-2">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 border border-gray-700"></div>
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 border border-gray-700"></div>
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-pink-400 to-pink-600 border border-gray-700"></div>
+              <img
+                src="https://images.pexels.com/photos/3805874/pexels-photo-3805874.jpeg"
+                alt="Person 1"
+                className="w-8 h-8 rounded-full object-cover border border-gray-700"
+              />
+              <img
+                src="https://images.pexels.com/photos/1113976/pexels-photo-1113976.jpeg"
+                alt="Person 2"
+                className="w-8 h-8 rounded-full object-cover border border-gray-700"
+              />
+              <img
+                src="https://images.pexels.com/photos/19797383/pexels-photo-19797383.jpeg"
+                alt="Person 3"
+                className="w-8 h-8 rounded-full object-cover border border-gray-700"
+              />
             </div>
-            <span className="text-white text-sm font-medium">
+            <span className="text-white text-[11px] font-medium whitespace-nowrap">
               Join 284 others on the waitlist
             </span>
           </div>
