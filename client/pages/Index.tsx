@@ -11,7 +11,7 @@ export default function Index() {
       setWaitlistCount(prev => prev + 1);
       setSubmitted(true);
       setEmail("");
-      setTimeout(() => setSubmitted(false), 3000);
+      setTimeout(() => setSubmitted(false), 15000);
     }
   };
 
@@ -96,7 +96,7 @@ export default function Index() {
             )}
 
             {submitted ? (
-              <div className="text-center mt-8">
+              <div className="text-center">
                 <h3 className="text-xl md:text-2xl font-bold text-white mb-2">
                   You're in.
                 </h3>
