@@ -86,10 +86,10 @@ export default function Index() {
         {/* Signup Form Section */}
         <section
           id="waitlist-form"
-          className="px-6 md:px-8 py-12 flex justify-center"
+          className="px-6 md:px-8 py-4 flex justify-center"
         >
           <div className="w-full max-w-md">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 text-center">
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 text-center">
               Join the waitlist
             </h2>
 
