@@ -99,7 +99,7 @@ export default function Index() {
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-6 py-4 bg-gray-900 border border-gray-700 rounded-full text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 transition-colors"
+                className="w-full px-6 py-4 bg-[#1a1a1a] border border-gray-700 rounded-full text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 transition-colors"
                 required
               />
               <button
