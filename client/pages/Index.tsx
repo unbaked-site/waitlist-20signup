@@ -33,7 +33,7 @@ export default function Index() {
       {/* Main Content */}
       <main className="flex-1 flex flex-col">
         {/* Hero Section */}
-        <section className="px-6 py-4 md:px-8 md:py-6">
+        <section className="px-6 py-2 md:px-8 md:py-3">
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 bg-gradient-azure bg-clip-text text-transparent px-8 md:px-16">
             Less weed. More you.
           </h1>
@@ -44,7 +44,7 @@ export default function Index() {
         </section>
 
         {/* Phone Mockup Section */}
-        <section className="px-6 md:px-8 py-8 md:py-12 flex justify-center">
+        <section className="px-6 md:px-8 py-4 md:py-8 flex justify-center">
           <div className="relative w-full max-w-[280px]">
             <div className="absolute -inset-20 bg-gradient-azure rounded-3xl blur-[40px] opacity-60 -z-10"></div>
             <img
