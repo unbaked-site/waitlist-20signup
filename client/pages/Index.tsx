@@ -78,7 +78,7 @@ export default function Index() {
               />
             </div>
             <span className="text-white text-[11px] font-medium whitespace-nowrap">
-              Join 284 others on the waitlist
+              Join {waitlistCount} others on the waitlist
             </span>
           </div>
         </section>
