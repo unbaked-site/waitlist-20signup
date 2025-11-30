@@ -110,10 +110,33 @@ export default function Index() {
               </button>
             </form>
 
-            {submitted && (
-              <p className="text-cyan-400 text-center mt-4 text-sm">
-                Thanks for joining! Check your email.
-              </p>
+            {submitted ? (
+              <div className="text-center mt-8">
+                <h3 className="text-2xl md:text-3xl font-bold text-white mb-3">
+                  You're in.
+                </h3>
+                <p className="text-gray-300 text-xs md:text-sm">
+                  Well done! You claimed your free 3 months access. We will email you when the app launches.
+                </p>
+              </div>
+            ) : null}
+            {!submitted && (
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full px-6 py-4 bg-[#1a1a1a] border border-gray-700 rounded-full text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 transition-colors"
+                  required
+                />
+                <button
+                  type="submit"
+                  className="w-full py-4 bg-white text-black rounded-full font-bold text-base md:text-lg hover:bg-gray-100 transition-colors"
+                >
+                  Claim 3 Months Free
+                </button>
+              </form>
             )}
           </div>
         </section>
@@ -124,14 +147,14 @@ export default function Index() {
             Unbaked © 2025 |{" "}
             <a
               href="#"
-              className="text-white hover:text-cyan-400 transition-colors"
+              className="text-white hover:text-white hover:underline transition-colors"
             >
               Privacy
             </a>{" "}
             |{" "}
             <a
               href="#"
-              className="text-white hover:text-cyan-400 transition-colors"
+              className="text-white hover:text-white hover:underline transition-colors"
             >
               Terms
             </a>
