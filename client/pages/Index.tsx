@@ -89,17 +89,19 @@ export default function Index() {
           className="px-6 md:px-8 py-4 flex justify-center"
         >
           <div className="w-full max-w-md">
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 text-center">
-              Join the waitlist
-            </h2>
+            {!submitted && (
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 text-center">
+                Join the waitlist
+              </h2>
+            )}
 
             {submitted ? (
               <div className="text-center mt-8">
-                <h3 className="text-2xl md:text-3xl font-bold text-white mb-3">
+                <h3 className="text-xl md:text-2xl font-bold text-white mb-2">
                   You're in.
                 </h3>
                 <p className="text-gray-300 text-xs md:text-sm">
-                  Well done! You claimed your free 3 months access. We will email you when the app launches.
+                  Thanks for joining the waitlist.
                 </p>
               </div>
             ) : null}
