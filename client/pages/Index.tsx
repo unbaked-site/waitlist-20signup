@@ -8,7 +8,7 @@ export default function Index() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (email) {
-      setWaitlistCount(prev => prev + 1);
+      setWaitlistCount((prev) => prev + 1);
       setSubmitted(true);
       setEmail("");
       setTimeout(() => setSubmitted(false), 15000);
@@ -19,7 +19,10 @@ export default function Index() {
     <div className="min-h-screen bg-black flex flex-col">
       {/* Header */}
       <header className="w-full px-6 py-0 flex justify-between items-center md:px-8 md:py-0 -mt-6">
-        <a href="https://unbaked.com" className="hover:opacity-80 transition-opacity">
+        <a
+          href="https://unbaked.com"
+          className="hover:opacity-80 transition-opacity"
+        >
           <img
             src="https://cdn.builder.io/api/v1/image/assets%2Fa79f59e10394423cbf0b2f4969bf9328%2Fa208ab03690c419a893f87deb701fbc2?format=webp&width=800"
             alt="Unbaked logo"
