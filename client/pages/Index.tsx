@@ -20,7 +20,7 @@ export default function Index() {
       {/* Header */}
       <header className="w-full px-6 py-0 flex justify-between items-center md:px-8 md:py-0 -mt-6">
         <a
-          href="https://unbaked.com"
+          href="https://unbakedapp.com"
           className="hover:opacity-80 transition-opacity"
         >
           <img
