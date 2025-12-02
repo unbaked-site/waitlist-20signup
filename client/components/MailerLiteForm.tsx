@@ -17,11 +17,26 @@ export default function MailerLiteForm({ onSubmit }: MailerLiteFormProps) {
     script2.innerHTML = `fetch("https://assets.mailerlite.com/jsonp/1955610/forms/172579220566837150/takel")`;
     document.body.appendChild(script2);
 
+    // Add form submission handler
+    const form = document.querySelector(".ml-block-form") as HTMLFormElement;
+    if (form) {
+      const handleSubmit = () => {
+        setTimeout(() => {
+          if (onSubmit) onSubmit();
+        }, 500);
+      };
+      form.addEventListener("submit", handleSubmit);
+    }
+
     return () => {
+      const form = document.querySelector(".ml-block-form") as HTMLFormElement;
+      if (form) {
+        form.removeEventListener("submit", () => {});
+      }
       if (script1.parentNode) script1.parentNode.removeChild(script1);
       if (script2.parentNode) script2.parentNode.removeChild(script2);
     };
-  }, []);
+  }, [onSubmit]);
 
   return (
     <div>
