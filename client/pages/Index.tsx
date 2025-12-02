@@ -1,4 +1,5 @@
 import { useState } from "react";
+import MailerLiteForm from "../components/MailerLiteForm";
 
 export default function Index() {
   const [waitlistCount, setWaitlistCount] = useState(284);
@@ -78,16 +79,7 @@ export default function Index() {
 
         {/* Signup Form Section */}
         <section className="px-6 md:px-8 py-4 flex justify-center">
-          <button
-            className="ml-onclick-form bg-white text-black px-8 py-4 rounded-full font-bold text-base md:text-lg hover:bg-gray-100 transition-colors"
-            onClick={() => {
-              if (typeof window !== 'undefined' && (window as any).ml) {
-                (window as any).ml('show', '172579220566837150', true);
-              }
-            }}
-          >
-            Claim 3 Months Free
-          </button>
+          <MailerLiteForm />
         </section>
 
         {/* Footer */}
