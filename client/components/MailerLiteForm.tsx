@@ -940,12 +940,6 @@ export default function MailerLiteForm() {
                   </div>
                 </div>
 
-                <div className="ml-form-embedPermissions">
-                  <div className="ml-form-embedPermissionsContent default privacy-policy">
-                    <p>We'll only use your email to notify you about the app launch and occasional updates. No spam. See our Privacy Policy.</p>
-                  </div>
-                </div>
-
                 <div className="ml-form-checkboxRow ml-validate-required">
                   <label className="checkbox">
                     <input type="checkbox" />
