@@ -682,7 +682,7 @@ export default function MailerLiteForm({ onSubmit }: MailerLiteFormProps) {
         }
 
         #mlb2-34057365.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-embedSubmit {
-          margin: 0 0 40px 0;
+          margin: 0 0 60px 0;
           float: left;
           width: 100%;
         }
