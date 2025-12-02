@@ -40,7 +40,7 @@ export default function Index() {
         </section>
 
         {/* Phone Mockup Section */}
-        <section className="px-6 md:px-8 py-6 md:py-8 flex justify-center">
+        <section className="px-6 md:px-8 pt-6 md:pt-8 pb-3 flex justify-center">
           <div className="relative w-full max-w-[280px]">
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-azure rounded-full blur-2xl opacity-40 -z-10"></div>
             <img
@@ -52,7 +52,7 @@ export default function Index() {
         </section>
 
         {/* Waitlist Count Section */}
-        <section className="px-6 md:px-8 py-6 flex justify-center">
+        <section className="px-6 md:px-8 py-3 flex justify-center">
           <div className="border border-gray-700 rounded-full px-6 py-3 flex items-center gap-3 bg-gray-900 bg-opacity-50">
             <div className="flex -space-x-2">
               <img
@@ -80,7 +80,7 @@ export default function Index() {
         {/* Signup Form Section */}
         <section
           id="waitlist-form"
-          className="px-6 md:px-8 py-4 pb-24 flex justify-center"
+          className="px-6 md:px-8 py-2 pb-24 flex justify-center"
         >
           <MailerLiteForm
             onSubmit={() => setWaitlistCount((prev) => prev + 1)}
