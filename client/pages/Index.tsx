@@ -40,8 +40,8 @@ export default function Index() {
         </section>
 
         {/* Phone Mockup Section */}
-        <section className="px-6 md:px-8 py-4 md:py-8 flex justify-center">
-          <div className="relative w-full max-w-[280px] py-8">
+        <section className="px-6 md:px-8 py-2 md:py-4 flex justify-center">
+          <div className="relative w-full max-w-[280px]">
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-azure rounded-full blur-2xl opacity-40 -z-10"></div>
             <img
               src="https://cdn.builder.io/api/v1/image/assets%2Fa79f59e10394423cbf0b2f4969bf9328%2F645089bea62c4c7aa8c986f41b8635d8?format=webp&width=800"
@@ -80,9 +80,9 @@ export default function Index() {
         {/* Signup Form Section */}
         <section
           id="waitlist-form"
-          className="px-6 md:px-8 py-4 flex justify-center"
+          className="px-6 md:px-8 py-4 pb-16 flex justify-center"
         >
-          <MailerLiteForm />
+          <MailerLiteForm onSubmit={() => setWaitlistCount(prev => prev + 1)} />
         </section>
 
         {/* Footer */}
