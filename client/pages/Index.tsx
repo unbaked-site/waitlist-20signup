@@ -78,7 +78,7 @@ export default function Index() {
 
         {/* Signup Form Section */}
         <section className="px-6 md:px-8 py-4 flex justify-center">
-          <div className="ml-embedded" data-form="rVZ0Yn"></div>
+          <div className="ml-embedded" data-form="172579220566837150"></div>
         </section>
 
         {/* Footer */}
