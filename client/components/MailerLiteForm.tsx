@@ -1,6 +1,10 @@
 import { useEffect } from "react";
 
-export default function MailerLiteForm() {
+interface MailerLiteFormProps {
+  onSubmit?: () => void;
+}
+
+export default function MailerLiteForm({ onSubmit }: MailerLiteFormProps) {
   useEffect(() => {
     // Load MailerLite scripts
     const script1 = document.createElement("script");
