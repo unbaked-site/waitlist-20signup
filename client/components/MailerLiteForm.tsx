@@ -4,7 +4,8 @@ export default function MailerLiteForm() {
   useEffect(() => {
     // Load MailerLite scripts
     const script1 = document.createElement("script");
-    script1.src = "https://groot.mailerlite.com/js/w/webforms.min.js?v176e10baa5e7ed80d35ae235be3d5024";
+    script1.src =
+      "https://groot.mailerlite.com/js/w/webforms.min.js?v176e10baa5e7ed80d35ae235be3d5024";
     script1.type = "text/javascript";
     document.body.appendChild(script1);
 
@@ -909,7 +910,10 @@ export default function MailerLiteForm() {
         }
       `}</style>
 
-      <div id="mlb2-34057365" className="ml-form-embedContainer ml-subscribe-form ml-subscribe-form-34057365">
+      <div
+        id="mlb2-34057365"
+        className="ml-form-embedContainer ml-subscribe-form ml-subscribe-form-34057365"
+      >
         <div className="ml-form-align-center ">
           <div className="ml-form-embedWrapper embedForm">
             <div className="ml-form-embedBody ml-form-embedBodyDefault row-form">
@@ -943,7 +947,10 @@ export default function MailerLiteForm() {
                   <label className="checkbox">
                     <input type="checkbox" />
                     <div className="label-description">
-                      <p>I agree to receive emails about the Unbaked app launch and updates.</p>
+                      <p>
+                        I agree to receive emails about the Unbaked app launch
+                        and updates.
+                      </p>
                     </div>
                   </label>
                 </div>
@@ -954,7 +961,12 @@ export default function MailerLiteForm() {
                   <button type="submit" className="primary">
                     Claim 3 Months Free
                   </button>
-                  <button disabled style={{ display: "none" }} type="button" className="loading">
+                  <button
+                    disabled
+                    style={{ display: "none" }}
+                    type="button"
+                    className="loading"
+                  >
                     <div className="ml-form-embedSubmitLoad"></div>
                     <span className="sr-only">Loading...</span>
                   </button>
@@ -964,10 +976,17 @@ export default function MailerLiteForm() {
               </form>
             </div>
 
-            <div className="ml-form-successBody row-success" style={{ display: "none" }}>
+            <div
+              className="ml-form-successBody row-success"
+              style={{ display: "none" }}
+            >
               <div className="ml-form-successContent">
                 <h4>You're in.</h4>
-                <p><span style={{ color: "rgb(255, 255, 255)" }}>You have successfully joined our waitlist.</span></p>
+                <p>
+                  <span style={{ color: "rgb(255, 255, 255)" }}>
+                    You have successfully joined our waitlist.
+                  </span>
+                </p>
               </div>
             </div>
           </div>

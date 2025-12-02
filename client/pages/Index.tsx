@@ -78,7 +78,10 @@ export default function Index() {
         </section>
 
         {/* Signup Form Section */}
-        <section id="waitlist-form" className="px-6 md:px-8 py-4 flex justify-center">
+        <section
+          id="waitlist-form"
+          className="px-6 md:px-8 py-4 flex justify-center"
+        >
           <MailerLiteForm />
         </section>
 
