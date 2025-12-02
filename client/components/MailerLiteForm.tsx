@@ -147,7 +147,7 @@ export default function MailerLiteForm() {
         #mlb2-34057365.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-embedContent,
         #mlb2-34057365.ml-form-embedContainer .ml-form-embedWrapper .ml-form-successBody .ml-form-successContent {
           text-align: left;
-          margin: 0 0 20px 0;
+          margin: 0 0 10px 0;
         }
 
         #mlb2-34057365.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-embedContent h4,
@@ -915,7 +915,6 @@ export default function MailerLiteForm() {
             <div className="ml-form-embedBody ml-form-embedBodyDefault row-form">
               <div className="ml-form-embedContent">
                 <h4>Join the waitlist</h4>
-                <p><br /></p>
               </div>
 
               <form
