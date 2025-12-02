@@ -174,7 +174,7 @@ export default function MailerLiteForm({ onSubmit }: MailerLiteFormProps) {
         #mlb2-34057365.ml-form-embedContainer .ml-form-embedWrapper .ml-form-successBody .ml-form-successContent h4 {
           color: #ffffff;
           font-family: 'Poppins', sans-serif;
-          font-size: 30px;
+          font-size: 25px;
           font-weight: 700;
           margin: 0 0 20px 0;
           text-align: center;
@@ -386,7 +386,7 @@ export default function MailerLiteForm({ onSubmit }: MailerLiteFormProps) {
         #mlb2-34057365.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-interestGroupsRow .ml-form-interestGroupsRowCheckbox input[type=checkbox]:checked~.label-description::before,
         #mlb2-34057365.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-checkboxRow input[type=checkbox]:checked~.label-description::before {
           border-color: #ffffff!important;
-          background-color: #ffffff!important;
+          background-color: #000000!important;
         }
 
         #mlb2-34057365.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-fieldRow .custom-radio .custom-control-label::before,
