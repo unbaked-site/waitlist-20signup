@@ -82,7 +82,9 @@ export default function Index() {
           id="waitlist-form"
           className="px-6 md:px-8 py-4 pb-24 flex justify-center"
         >
-          <MailerLiteForm onSubmit={() => setWaitlistCount(prev => prev + 1)} />
+          <MailerLiteForm
+            onSubmit={() => setWaitlistCount((prev) => prev + 1)}
+          />
         </section>
 
         {/* Footer */}
