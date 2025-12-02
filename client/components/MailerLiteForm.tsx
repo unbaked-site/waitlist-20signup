@@ -157,7 +157,7 @@ export default function MailerLiteForm() {
           font-family: 'Poppins', sans-serif;
           font-size: 30px;
           font-weight: 700;
-          margin: 0 0 10px 0;
+          margin: 0 0 20px 0;
           text-align: center;
           word-break: break-word;
         }
@@ -663,7 +663,7 @@ export default function MailerLiteForm() {
         }
 
         #mlb2-34057365.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-embedSubmit {
-          margin: 0 0 20px 0;
+          margin: 0 0 40px 0;
           float: left;
           width: 100%;
         }
