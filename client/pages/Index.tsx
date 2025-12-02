@@ -1,19 +1,7 @@
 import { useState } from "react";
 
 export default function Index() {
-  const [email, setEmail] = useState("");
-  const [submitted, setSubmitted] = useState(false);
   const [waitlistCount, setWaitlistCount] = useState(284);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email) {
-      setWaitlistCount((prev) => prev + 1);
-      setSubmitted(true);
-      setEmail("");
-      setTimeout(() => setSubmitted(false), 15000);
-    }
-  };
 
   return (
     <div className="min-h-screen bg-black flex flex-col">
@@ -89,46 +77,8 @@ export default function Index() {
         </section>
 
         {/* Signup Form Section */}
-        <section
-          id="waitlist-form"
-          className="px-6 md:px-8 py-4 flex justify-center"
-        >
-          <div className="w-full max-w-md">
-            {!submitted && (
-              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 text-center">
-                Join the waitlist
-              </h2>
-            )}
-
-            {submitted ? (
-              <div className="text-center">
-                <h3 className="text-xl md:text-2xl font-bold text-white mb-2">
-                  You're in.
-                </h3>
-                <p className="text-gray-300 text-xs md:text-sm">
-                  Thanks for joining the waitlist.
-                </p>
-              </div>
-            ) : null}
-            {!submitted && (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-6 py-4 bg-[#1a1a1a] border border-gray-700 rounded-full text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 transition-colors"
-                  required
-                />
-                <button
-                  type="submit"
-                  className="w-full py-4 bg-white text-black rounded-full font-bold text-base md:text-lg hover:bg-gray-100 transition-colors"
-                >
-                  Claim 3 Months Free
-                </button>
-              </form>
-            )}
-          </div>
+        <section className="px-6 md:px-8 py-4 flex justify-center">
+          <div className="ml-embedded" data-form="rVZ0Yn"></div>
         </section>
 
         {/* Footer */}
