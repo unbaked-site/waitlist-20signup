@@ -92,14 +92,14 @@ export default function Index() {
           <p>
             Unbaked © 2025 |{" "}
             <a
-              href="#"
+              href="/privacy"
               className="text-white hover:text-white hover:underline transition-colors"
             >
               Privacy
             </a>{" "}
             |{" "}
             <a
-              href="#"
+              href="/terms"
               className="text-white hover:text-white hover:underline transition-colors"
             >
               Terms
