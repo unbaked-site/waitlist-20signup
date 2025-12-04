@@ -7,7 +7,7 @@ export default function Index() {
   return (
     <div className="min-h-screen bg-black flex flex-col">
       {/* Header */}
-      <header className="w-full px-6 py-0 flex justify-between items-center md:px-8 md:py-0 -mt-6">
+      <header className="w-full px-6 py-0 flex justify-between items-center md:px-8 lg:px-16 lg:justify-center lg:gap-8 md:py-0 -mt-6">
         <a
           href="https://unbakedapp.com"
           className="hover:opacity-80 transition-opacity"
@@ -20,7 +20,7 @@ export default function Index() {
         </a>
         <a
           href="#waitlist-form"
-          className="bg-white text-black px-6 py-2 rounded-full font-semibold text-sm md:text-base hover:bg-gray-100 transition-colors mr-4 inline-block"
+          className="bg-white text-black px-6 py-2 rounded-full font-semibold text-sm md:text-base hover:bg-gray-100 transition-colors mr-4 lg:mr-0 inline-block"
         >
           Join waitlist
         </a>
