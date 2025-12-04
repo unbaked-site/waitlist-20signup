@@ -53,7 +53,7 @@ export default function Index() {
                   />
                 </div>
                 <span className="text-white text-lg font-medium whitespace-nowrap">
-                  Join {waitlistCount} others
+                  Join {waitlistCount} others on the waitlist
                 </span>
               </div>
             </div>
