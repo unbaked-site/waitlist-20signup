@@ -49,6 +49,22 @@
       href="https://cdn.builder.io/api/v1/image/assets%2Fa79f59e10394423cbf0b2f4969bf9328%2Fcbacde6b9d344dac838268fc3eb7c022?format=webp&width=180"
     />
     <meta name="theme-color" content="#01bcff" />
+
+    <!-- visually-hide-but-accessible helper for the static SEO hero -->
+    <style>
+      .sr-only {
+        position: absolute !important;
+        width: 1px !important;
+        height: 1px !important;
+        padding: 0 !important;
+        margin: -1px !important;
+        overflow: hidden !important;
+        clip: rect(0 0 0 0) !important;
+        white-space: nowrap !important;
+        border: 0 !important;
+      }
+    </style>
+
     <!-- MailerLite Universal -->
     <script>
       (function (w, d, e, u, f, l, n) {
@@ -74,7 +90,8 @@
     <!-- End MailerLite Universal -->
   </head>
 <body>
-  <header id="static-hero" style="padding:40px 20px; text-align:center;">
+  <!-- static SEO hero is present for crawlers and screen readers, but visually hidden via .sr-only -->
+  <header id="static-hero" class="sr-only" style="padding:40px 20px; text-align:center;">
     <h1 style="font-size:2rem; margin:0 0 10px;">Less weed. More you.</h1>
     <p style="max-width:720px; margin:0 auto 18px;">
       Quit weed cold turkey with Unbaked — track your detox progress, follow our 6-step roadmap, and reclaim your life.
