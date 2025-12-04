@@ -29,9 +29,9 @@ export default function Index() {
       {/* Main Content */}
       <main className="flex-1 flex flex-col">
         {/* Hero Section - Two Column on Desktop */}
-        <section className="px-6 md:px-8 py-0 -mt-6 lg:grid lg:grid-cols-2 lg:gap-16 lg:items-center lg:py-12 lg:px-16">
+        <section className="px-6 md:px-8 py-0 -mt-6 flex flex-col md:flex-col lg:grid lg:grid-cols-2 lg:gap-16 lg:items-center lg:py-12 lg:px-16">
           {/* Left Column - Text and Social Proof */}
-          <div className="lg:flex lg:flex-col lg:justify-center lg:items-start">
+          <div className="flex flex-col md:flex-col md:items-center md:text-center lg:flex-col lg:items-start lg:text-left lg:justify-center">
             {/* Waitlist Count Section */}
             <div className="hidden lg:block mb-8">
               <div className="border border-gray-700 rounded-full px-8 py-3 flex items-center gap-4 bg-gray-900 bg-opacity-50 w-fit">
@@ -59,10 +59,10 @@ export default function Index() {
             </div>
 
             {/* Hero Headline and Subheadline */}
-            <h1 className="text-2xl md:text-3xl md:text-center lg:text-6xl lg:text-left font-bold mb-4 bg-gradient-azure bg-clip-text text-transparent px-8 md:px-16 lg:px-0 lg:mb-6">
+            <h1 className="text-2xl md:text-3xl lg:text-6xl font-bold mb-4 bg-gradient-azure bg-clip-text text-transparent px-8 md:px-16 lg:px-0 lg:mb-6">
               Less weed. More you.
             </h1>
-            <p className="text-gray-300 text-[10px] md:text-[11px] md:text-center lg:text-lg lg:text-left max-w-2xl px-8 md:px-16 lg:px-0 leading-tight lg:leading-relaxed">
+            <p className="text-gray-300 text-[10px] md:text-[11px] lg:text-lg max-w-2xl px-8 md:px-16 lg:px-0 leading-tight lg:leading-relaxed">
               Join the waitlist and get 3 months free access to all features when
               we launch — no card required.
             </p>
