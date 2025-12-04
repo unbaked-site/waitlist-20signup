@@ -63,8 +63,8 @@ export default function Index() {
               Less weed. More you.
             </h1>
             <p className="text-gray-300 text-[10px] md:text-[11px] lg:text-lg max-w-2xl px-8 md:px-16 lg:px-0 leading-tight lg:leading-relaxed">
-              Join the waitlist and get 3 months free access to all features when
-              we launch — no card required.
+              Join the waitlist and get 3 months free access to all features
+              when we launch — no card required.
             </p>
           </div>
 
