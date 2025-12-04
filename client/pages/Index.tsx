@@ -29,12 +29,12 @@ export default function Index() {
       {/* Main Content */}
       <main className="flex-1 flex flex-col">
         {/* Hero Section - Two Column on Desktop */}
-        <section className="px-6 md:px-8 py-0 -mt-6 lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center lg:py-12">
+        <section className="px-6 md:px-8 py-0 -mt-6 lg:grid lg:grid-cols-2 lg:gap-16 lg:items-center lg:py-12 lg:px-16">
           {/* Left Column - Text and Social Proof */}
-          <div className="lg:flex lg:flex-col lg:justify-center">
+          <div className="lg:flex lg:flex-col lg:justify-center lg:items-start">
             {/* Waitlist Count Section */}
-            <div className="md:hidden lg:block mb-8">
-              <div className="border border-gray-700 rounded-full px-6 py-3 flex items-center gap-3 bg-gray-900 bg-opacity-50 w-fit">
+            <div className="hidden lg:block mb-8">
+              <div className="border border-gray-700 rounded-full px-8 py-3 flex items-center gap-4 bg-gray-900 bg-opacity-50 w-fit">
                 <div className="flex -space-x-2">
                   <img
                     src="https://images.pexels.com/photos/3805874/pexels-photo-3805874.jpeg"
@@ -52,7 +52,7 @@ export default function Index() {
                     className="w-8 h-8 rounded-full object-cover border border-gray-700"
                   />
                 </div>
-                <span className="text-white text-[11px] font-medium whitespace-nowrap">
+                <span className="text-white text-lg font-medium whitespace-nowrap">
                   Join {waitlistCount} others
                 </span>
               </div>
