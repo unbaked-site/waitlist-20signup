@@ -966,7 +966,6 @@ export default function MailerLiteForm({ onSubmit }: MailerLiteFormProps) {
                 className="ml-block-form"
                 action="https://assets.mailerlite.com/jsonp/1955610/forms/172579220566837150/subscribe"
                 method="post"
-                target="_blank"
               >
                 <div className="ml-form-formContent">
                   <div className="ml-form-fieldRow ml-last-item">
