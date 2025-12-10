@@ -20,19 +20,41 @@ export default function MailerLiteForm({ onSubmit }: MailerLiteFormProps) {
     // Add form submission handler
     const form = document.querySelector(".ml-block-form") as HTMLFormElement;
     if (form) {
-      const handleSubmit = () => {
-        setTimeout(() => {
-          if (onSubmit) onSubmit();
-        }, 500);
+      const handleSubmit = (e: Event) => {
+        e.preventDefault();
+
+        // Submit form data to MailerLite
+        const formData = new FormData(form);
+        fetch("https://assets.mailerlite.com/jsonp/1955610/forms/172579220566837150/subscribe", {
+          method: "POST",
+          body: formData,
+        })
+          .then(() => {
+            // Show success message
+            const successBody = document.querySelector(".ml-form-successBody") as HTMLElement;
+            const formBody = document.querySelector(".ml-form-embedBodyDefault") as HTMLElement;
+            if (successBody && formBody) {
+              successBody.style.display = "block";
+              formBody.style.display = "none";
+            }
+
+            // Increment waitlist count
+            if (onSubmit) onSubmit();
+          })
+          .catch((error) => {
+            console.error("Form submission error:", error);
+          });
       };
       form.addEventListener("submit", handleSubmit);
+
+      return () => {
+        form.removeEventListener("submit", handleSubmit);
+        if (script1.parentNode) script1.parentNode.removeChild(script1);
+        if (script2.parentNode) script2.parentNode.removeChild(script2);
+      };
     }
 
     return () => {
-      const form = document.querySelector(".ml-block-form") as HTMLFormElement;
-      if (form) {
-        form.removeEventListener("submit", () => {});
-      }
       if (script1.parentNode) script1.parentNode.removeChild(script1);
       if (script2.parentNode) script2.parentNode.removeChild(script2);
     };
