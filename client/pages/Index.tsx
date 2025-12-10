@@ -1,8 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import MailerLiteForm from "../components/MailerLiteForm";
 
 export default function Index() {
   const [waitlistCount, setWaitlistCount] = useState(284);
+
+  // Load waitlist count from localStorage on mount
+  useEffect(() => {
+    const stored = localStorage.getItem("waitlistCount");
+    if (stored) {
+      setWaitlistCount(parseInt(stored, 10));
+    }
+  }, []);
+
+  // Save waitlist count to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("waitlistCount", waitlistCount.toString());
+  }, [waitlistCount]);
 
   return (
     <div className="min-h-screen bg-black flex flex-col">
