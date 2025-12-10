@@ -1031,11 +1031,7 @@ export default function MailerLiteForm({ onSubmit }: MailerLiteFormProps) {
             >
               <div className="ml-form-successContent">
                 <h4>You're in.</h4>
-                <p>
-                  <span style={{ color: "rgb(255, 255, 255)" }}>
-                    You have successfully joined our waitlist.
-                  </span>
-                </p>
+                <p>You have successfully joined our waitlist.</p>
               </div>
             </div>
           </div>
