@@ -25,14 +25,21 @@ export default function MailerLiteForm({ onSubmit }: MailerLiteFormProps) {
 
         // Submit form data to MailerLite
         const formData = new FormData(form);
-        fetch("https://assets.mailerlite.com/jsonp/1955610/forms/172579220566837150/subscribe", {
-          method: "POST",
-          body: formData,
-        })
+        fetch(
+          "https://assets.mailerlite.com/jsonp/1955610/forms/172579220566837150/subscribe",
+          {
+            method: "POST",
+            body: formData,
+          },
+        )
           .then(() => {
             // Show success message
-            const successBody = document.querySelector(".ml-form-successBody") as HTMLElement;
-            const formBody = document.querySelector(".ml-form-embedBodyDefault") as HTMLElement;
+            const successBody = document.querySelector(
+              ".ml-form-successBody",
+            ) as HTMLElement;
+            const formBody = document.querySelector(
+              ".ml-form-embedBodyDefault",
+            ) as HTMLElement;
             if (successBody && formBody) {
               successBody.style.display = "block";
               formBody.style.display = "none";
