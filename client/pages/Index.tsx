@@ -111,17 +111,17 @@ export default function Index() {
           <div className="border border-gray-700 rounded-full px-6 py-3 flex items-center gap-3 bg-gray-900 bg-opacity-50">
             <div className="flex -space-x-2">
               <img
-                src="https://images.pexels.com/photos/3805874/pexels-photo-3805874.jpeg"
+                src="https://cdn.builder.io/api/v1/image/assets%2Fa79f59e10394423cbf0b2f4969bf9328%2F71685cca48314180b6aac2114dfd624c"
                 alt="Person 1"
                 className="w-8 h-8 rounded-full object-cover border border-gray-700"
               />
               <img
-                src="https://images.pexels.com/photos/1113976/pexels-photo-1113976.jpeg"
+                src="https://cdn.builder.io/api/v1/image/assets%2Fa79f59e10394423cbf0b2f4969bf9328%2F8769f68028a7479181436353af6c9250"
                 alt="Person 2"
                 className="w-8 h-8 rounded-full object-cover border border-gray-700"
               />
               <img
-                src="https://images.pexels.com/photos/19797383/pexels-photo-19797383.jpeg"
+                src="https://cdn.builder.io/api/v1/image/assets%2Fa79f59e10394423cbf0b2f4969bf9328%2Ff6331da0415b49d494bd9f51927c2185"
                 alt="Person 3"
                 className="w-8 h-8 rounded-full object-cover border border-gray-700"
               />
