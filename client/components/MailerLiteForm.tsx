@@ -203,9 +203,18 @@ export default function MailerLiteForm({ onSubmit }: MailerLiteFormProps) {
           word-break: break-word;
         }
 
-        #mlb2-34057365.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-embedContent p,
-        #mlb2-34057365.ml-form-embedContainer .ml-form-embedWrapper .ml-form-successBody .ml-form-successContent p {
+        #mlb2-34057365.ml-form-embedContainer .ml-form-embedWrapper .ml-form-embedBody .ml-form-embedContent p {
           color: #000000;
+          font-family: 'Poppins', sans-serif;
+          font-size: 10px;
+          font-weight: 400;
+          line-height: 16px;
+          margin: 0 0 10px 0;
+          text-align: center;
+        }
+
+        #mlb2-34057365.ml-form-embedContainer .ml-form-embedWrapper .ml-form-successBody .ml-form-successContent p {
+          color: #ffffff;
           font-family: 'Poppins', sans-serif;
           font-size: 10px;
           font-weight: 400;
