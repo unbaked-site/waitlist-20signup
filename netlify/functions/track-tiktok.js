@@ -14,61 +14,6 @@ export const handler = async (event) => {
   }
 
   try {
-    const body = JSON.parse(event.body);
-
-    const payload = {
-      pixel_code: TIKTOK_PIXEL_ID,
-      event: body.event_name,
-      event_id: body.event_id,
-      timestamp: Math.floor(Date.now() / 1000),
-      context: {
-        page: {
-          url: body.page_url,
-        },
-      },
-      properties: {
-        content_name: body.content_name,
-        content_type: body.content_type,
-      },
-      user: {
-        email: body.email ? sha256Hex(body.email.toLowerCase().trim()) : undefined,
-        phone: body.phone ? sha256Hex(body.phone.replace(/\D/g, '')) : undefined,
-        ttclid: body.ttclid || undefined,
-        ttp: body.ttp || undefined,
-      },
-    };
-
-    const response = await fetch(
-      'https://business-api.tiktok.com/open_api/v1.3/event/track/',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Token': TIKTOK_ACCESS_TOKEN,
-        },
-        body: JSON.stringify(payload),
-      }
-    );
-
-    const result = await response.json();
-
-    return {
-      statusCode: 200,
-      body: JSON.stringify(result),
-    };
-  } catch (err) {
-    console.error('TikTok CAPI error', err);
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: 'TikTok CAPI failed' }),
-    };
-  }
-
-  if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: 'Method Not Allowed' };
-  }
-
-  try {
     const body = JSON.parse(event.body || '{}');
     const {
       event_name = 'Join the waitlist',
@@ -102,13 +47,13 @@ export const handler = async (event) => {
         page_url,
         content_id,
         content_type,
-        content_name,
-        ttclid,
-        ttp
+        content_name
       },
       user: {
         ...(hashedEmail ? { email: hashedEmail } : {}),
         ...(hashedPhone ? { phone: hashedPhone } : {}),
+        ...(ttclid ? { ttclid } : {}),
+        ...(ttp ? { ttp } : {}),
         client_ip,
         client_user_agent
       }
@@ -121,10 +66,19 @@ export const handler = async (event) => {
       body: JSON.stringify(tiktokPayload)
     });
 
-    const text = await res.text();
-    return { statusCode: 200, body: JSON.stringify({ ok: true, tiktokResponse: text }) };
+    const responseData = await res.json();
+    
+    console.log('TikTok API response:', responseData);
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ ok: true, tiktokResponse: responseData })
+    };
   } catch (err) {
     console.error('track-tiktok error', err);
-    return { statusCode: 500, body: JSON.stringify({ ok: false, error: String(err) }) };
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ ok: false, error: String(err) })
+    };
   }
 };
