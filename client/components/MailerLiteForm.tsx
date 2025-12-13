@@ -183,7 +183,7 @@ export default function MailerLiteForm({ onSubmit }: MailerLiteFormProps) {
           fbc,
           page_url: window.location.href,
           custom_data: { content_name: 'claim_3_months_free' }
-          // test_event_code: 'PUT_YOUR_TEST_EVENT_CODE_HERE' // optional during testing
+          test_event_code: testTEST81451
         };
 
         fetch('/.netlify/functions/meta-capi', {
