@@ -1,6 +1,6 @@
-// client/pages/app.tsx
+// client/App.tsx
 import { useEffect } from 'react';
-import { initPixels } from '../analytics';
+import { initPixels } from './analytics'; // <-- corrected path
 
 export default function App() {
   useEffect(() => {
