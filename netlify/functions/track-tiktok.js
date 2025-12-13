@@ -1,5 +1,5 @@
 // netlify/functions/track-tiktok.js
-const crypto = require('crypto');
+import crypto from 'crypto';
 
 const TIKTOK_PIXEL_ID = process.env.TIKTOK_PIXEL_ID;
 const TIKTOK_ACCESS_TOKEN = process.env.TIKTOK_ACCESS_TOKEN;
@@ -8,7 +8,7 @@ function sha256Hex(input) {
   return crypto.createHash('sha256').update(input).digest('hex');
 }
 
-exports.handler = async (event) => {
+export const handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
