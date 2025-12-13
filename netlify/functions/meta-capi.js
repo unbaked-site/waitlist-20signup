@@ -1,5 +1,5 @@
 // netlify/functions/meta-capi.js
-import crypto from 'crypto';
+const crypto = require('crypto');
 
 const META_PIXEL_ID = process.env.META_PIXEL_ID;
 const META_ACCESS_TOKEN = process.env.META_ACCESS_TOKEN;
@@ -12,7 +12,7 @@ function sha256Hex(value) {
     .digest('hex');
 }
 
-export async function handler(event) {
+exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
