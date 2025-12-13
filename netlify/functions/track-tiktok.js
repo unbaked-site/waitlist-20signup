@@ -57,8 +57,7 @@ exports.handler = async (event) => {
         ...(hashedPhone ? { phone: hashedPhone } : {}),
         client_ip,
         client_user_agent
-      },
-    test_event_code: TEST65495 
+      }
     };
 
     const url = `https://business-api.tiktok.com/open_api/v1.3/event/track/?access_token=${encodeURIComponent(TIKTOK_ACCESS_TOKEN)}`;
