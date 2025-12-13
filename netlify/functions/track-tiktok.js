@@ -1,6 +1,5 @@
 // netlify/functions/track-tiktok.js
-const fetch = require('node-fetch');
-const crypto = require('crypto');
+import crypto from 'crypto';
 
 const TIKTOK_PIXEL_ID = process.env.TIKTOK_PIXEL_ID;
 const TIKTOK_ACCESS_TOKEN = process.env.TIKTOK_ACCESS_TOKEN;
@@ -9,7 +8,62 @@ function sha256Hex(input) {
   return crypto.createHash('sha256').update(input).digest('hex');
 }
 
-exports.handler = async (event) => {
+export async function handler(event) {
+  if (event.httpMethod !== 'POST') {
+    return { statusCode: 405, body: 'Method Not Allowed' };
+  }
+
+  try {
+    const body = JSON.parse(event.body);
+
+    const payload = {
+      pixel_code: TIKTOK_PIXEL_ID,
+      event: body.event_name,
+      event_id: body.event_id,
+      timestamp: Math.floor(Date.now() / 1000),
+      context: {
+        page: {
+          url: body.page_url,
+        },
+      },
+      properties: {
+        content_name: body.content_name,
+        content_type: body.content_type,
+      },
+      user: {
+        email: body.email ? sha256Hex(body.email.toLowerCase().trim()) : undefined,
+        phone: body.phone ? sha256Hex(body.phone.replace(/\D/g, '')) : undefined,
+        ttclid: body.ttclid || undefined,
+        ttp: body.ttp || undefined,
+      },
+    };
+
+    const response = await fetch(
+      'https://business-api.tiktok.com/open_api/v1.3/event/track/',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Token': TIKTOK_ACCESS_TOKEN,
+        },
+        body: JSON.stringify(payload),
+      }
+    );
+
+    const result = await response.json();
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify(result),
+    };
+  } catch (err) {
+    console.error('TikTok CAPI error', err);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: 'TikTok CAPI failed' }),
+    };
+  }
+
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
