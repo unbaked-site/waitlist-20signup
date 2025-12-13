@@ -6,104 +6,176 @@ interface MailerLiteFormProps {
 
 export default function MailerLiteForm({ onSubmit }: MailerLiteFormProps) {
   useEffect(() => {
-    // Load MailerLite scripts
-    const script1 = document.createElement("script");
-    script1.src =
-      "https://groot.mailerlite.com/js/w/webforms.min.js?v176e10baa5e7ed80d35ae235be3d5024";
-    script1.type = "text/javascript";
-    document.body.appendChild(script1);
+  // Load MailerLite scripts
+  const script1 = document.createElement("script");
+  script1.src =
+    "https://groot.mailerlite.com/js/w/webforms.min.js?v176e10baa5e7ed80d35ae235be3d5024";
+  script1.type = "text/javascript";
+  document.body.appendChild(script1);
 
-    const script2 = document.createElement("script");
-    script2.innerHTML = `fetch("https://assets.mailerlite.com/jsonp/1955610/forms/172579220566837150/takel")`;
-    document.body.appendChild(script2);
+  const script2 = document.createElement("script");
+  script2.innerHTML = `fetch("https://assets.mailerlite.com/jsonp/1955610/forms/172579220566837150/takel")`;
+  document.body.appendChild(script2);
 
-    // Add form submission handler
-    const form = document.querySelector(".ml-block-form") as HTMLFormElement;
-    if (form) {
-      const handleSubmit = (e: Event) => {
-        e.preventDefault();
+  // Add form submission handler
+  const form = document.querySelector(".ml-block-form") as HTMLFormElement;
+  if (form) {
+    const handleSubmit = (e: Event) => {
+      e.preventDefault();
 
-        // generate unique event id (useful for later Conversions API dedupe)
-        const eventId = 'evt-' + Date.now().toString(36);
+      // -------------------------
+      // 1) generate unique event id
+      // -------------------------
+      const eventId = 'evt-' + Date.now().toString(36);
 
-        // Build FormData once
-        const formData = new FormData(form);
+      // Build FormData once
+      const formData = new FormData(form);
 
-        // Submit form data to MailerLite (existing behaviour)
-        fetch(
-          "https://assets.mailerlite.com/jsonp/1955610/forms/172579220566837150/subscribe",
-          {
-            method: "POST",
-            body: formData,
-          },
-        )
-          .then(async () => {
-            // Show success message (same as before)
-            try {
-              const successBody = document.querySelector(".ml-form-successBody") as HTMLElement;
-              const formBody = document.querySelector(".ml-form-embedBodyDefault") as HTMLElement;
-              if (successBody && formBody) {
-                successBody.style.display = "block";
-                formBody.style.display = "none";
-              }
-            } catch (err) {
-              // do not block the flow for UI issues
-              console.warn('success UI update failed', err);
+      // Try to extract email (robustly: several possible field names)
+      const getEmailFromForm = () => {
+        const emailInput = form.querySelector('input[type="email"]') as HTMLInputElement | null;
+        if (emailInput && emailInput.value) return emailInput.value.trim();
+
+        const fdEmail = formData.get('email');
+        if (fdEmail && typeof fdEmail === 'string') return fdEmail.trim();
+
+        const fdAlt = formData.get('fields[email]') || formData.get('fields%5Bemail%5D');
+        if (fdAlt && typeof fdAlt === 'string') return fdAlt.trim();
+
+        const named = form.querySelector('input[name*="email"]') as HTMLInputElement | null;
+        if (named && named.value) return named.value.trim();
+
+        return null;
+      };
+
+      const userEmail = getEmailFromForm();
+      const phoneInput = form.querySelector('input[type="tel"], input[name*="phone"]') as HTMLInputElement | null;
+      const userPhone = phoneInput && phoneInput.value ? phoneInput.value.trim() : null;
+
+      // -------------------------
+      // 2) Submit form data to MailerLite (existing behaviour)
+      // -------------------------
+      fetch(
+        "https://assets.mailerlite.com/jsonp/1955610/forms/172579220566837150/subscribe",
+        {
+          method: "POST",
+          body: formData,
+        },
+      )
+        .then(async () => {
+          // Show success message (same as before)
+          try {
+            const successBody = document.querySelector(".ml-form-successBody") as HTMLElement;
+            const formBody = document.querySelector(".ml-form-embedBodyDefault") as HTMLElement;
+            if (successBody && formBody) {
+              successBody.style.display = "block";
+              formBody.style.display = "none";
             }
+          } catch (err) {
+            console.warn('success UI update failed', err);
+          }
 
-            // Increment waitlist count callback
-            if (onSubmit) onSubmit();
+          // Increment waitlist count callback
+          if (onSubmit) onSubmit();
 
-            // --- Now emit tracking (after successful subscribe) ---
-            try {
-              // dataLayer push for GTM (optional)
-              (window as any).dataLayer = (window as any).dataLayer || [];
-              (window as any).dataLayer.push({
-                event: 'submit_application',
+          // --- Now emit tracking (after successful subscribe) ---
+
+          // 3) dataLayer push for GTM (optional)
+          try {
+            (window as any).dataLayer = (window as any).dataLayer || [];
+            (window as any).dataLayer.push({
+              event: 'submit_application',
+              event_id: eventId,
+              content_name: 'claim_3_months_free'
+            });
+          } catch (err) {
+            console.warn('dataLayer push failed', err);
+          }
+
+          // 4) Fire Meta pixel (client) — unchanged
+          try {
+            if (typeof (window as any).fbq === 'function') {
+              (window as any).fbq(
+                'track',
+                'submit application',
+                { content_name: 'claim_3_months_free', event_id: eventId },
+                { eventID: eventId }
+              );
+            } else {
+              console.warn('fbq not found on page');
+            }
+          } catch (err) {
+            console.warn('fbq track error', err);
+          }
+
+          // 5) Fire TikTok browser pixel (client)
+          try {
+            if (typeof (window as any).ttq === 'object' && typeof (window as any).ttq.track === 'function') {
+              (window as any).ttq.track('Join the waitlist', {
                 event_id: eventId,
+                page_url: window.location.href,
                 content_name: 'claim_3_months_free'
               });
-            } catch (err) {
-              console.warn('dataLayer push failed', err);
+            } else {
+              console.warn('ttq not found on page');
             }
+          } catch (err) {
+            console.warn('ttq track error', err);
+          }
 
-            // Fire Meta pixel (client) with exact event name "submit application"
-            try {
-              if (typeof (window as any).fbq === 'function') {
-                // send the event; include event_id in payload for later dedupe
-                (window as any).fbq(
-                  'track',
-                  'submit application',
-                  { content_name: 'claim_3_months_free', event_id: eventId },
-                  { eventID: eventId }
-                );
-              } else {
-                console.warn('fbq not found on page');
+          // 6) Server-side event: call Netlify function to forward to TikTok Events API
+          try {
+            const params = new URLSearchParams(window.location.search);
+            const ttclid = params.get('ttclid');
+            const ttp = params.get('ttp');
+
+            const serverPayload = {
+              event_name: 'Join the waitlist', // must match TikTok Event Builder
+              event_id: eventId,
+              email: userEmail || null,
+              phone: userPhone || null,
+              page_url: window.location.href,
+              content_id: 'waitlist_button',
+              content_type: 'waitlist',
+              content_name: 'claim_3_months_free',
+              ttclid: ttclid || null,
+              ttp: ttp || null
+            };
+
+            fetch('/.netlify/functions/track-tiktok', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(serverPayload)
+            }).then((res) => {
+              if (!res.ok) {
+                console.warn('Server tracking call failed', res.statusText);
               }
-            } catch (err) {
-              console.warn('fbq track error', err);
-            }
-          })
-          .catch((error) => {
-            // Keep the original error behaviour and log it
-            console.error("Form submission error:", error);
-            // Optional: still attempt to fire tracking if you prefer — currently we do not
-          });
-      };
-      form.addEventListener("submit", handleSubmit);
+            }).catch((err) => {
+              console.warn('Server tracking error', err);
+            });
+          } catch (err) {
+            console.warn('server event call error', err);
+          }
 
-      return () => {
-        form.removeEventListener("submit", handleSubmit);
-        if (script1.parentNode) script1.parentNode.removeChild(script1);
-        if (script2.parentNode) script2.parentNode.removeChild(script2);
-      };
-    }
+        })
+        .catch((error) => {
+          console.error("Form submission error:", error);
+        });
+    };
+    form.addEventListener("submit", handleSubmit);
 
     return () => {
+      form.removeEventListener("submit", handleSubmit);
       if (script1.parentNode) script1.parentNode.removeChild(script1);
       if (script2.parentNode) script2.parentNode.removeChild(script2);
     };
-  }, [onSubmit]);
+  }
+
+  return () => {
+    if (script1.parentNode) script1.parentNode.removeChild(script1);
+    if (script2.parentNode) script2.parentNode.removeChild(script2);
+  };
+}, [onSubmit]);
 
   return (
     <div>
