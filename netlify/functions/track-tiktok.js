@@ -1,22 +1,22 @@
 // netlify/functions/track-tiktok.js
-import crypto from 'crypto';
+import crypto from "crypto";
 
 const TIKTOK_PIXEL_ID = process.env.TIKTOK_PIXEL_ID;
 const TIKTOK_ACCESS_TOKEN = process.env.TIKTOK_ACCESS_TOKEN;
 
 function sha256Hex(input) {
-  return crypto.createHash('sha256').update(input).digest('hex');
+  return crypto.createHash("sha256").update(input).digest("hex");
 }
 
 export const handler = async (event) => {
-  if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: 'Method Not Allowed' };
+  if (event.httpMethod !== "POST") {
+    return { statusCode: 405, body: "Method Not Allowed" };
   }
 
   try {
-    const body = JSON.parse(event.body || '{}');
+    const body = JSON.parse(event.body || "{}");
     const {
-      event_name = 'Join the waitlist',
+      event_name = "Join the waitlist",
       event_id,
       email,
       phone,
@@ -25,18 +25,24 @@ export const handler = async (event) => {
       content_type,
       content_name,
       ttclid,
-      ttp
+      ttp,
     } = body;
 
     const timestamp = Math.floor(Date.now() / 1000);
 
     // Netlify provides client IP via x-forwarded-for
-    const client_ip = (event.headers['x-forwarded-for'] || '').split(',')[0] || null;
-    const client_user_agent = event.headers['user-agent'] || body.client_user_agent || null;
+    const client_ip =
+      (event.headers["x-forwarded-for"] || "").split(",")[0] || null;
+    const client_user_agent =
+      event.headers["user-agent"] || body.client_user_agent || null;
 
     // Hash PII server-side
-    const hashedEmail = email ? sha256Hex(email.trim().toLowerCase()) : undefined;
-    const hashedPhone = phone ? sha256Hex(phone.replace(/[^0-9]/g, '')) : undefined;
+    const hashedEmail = email
+      ? sha256Hex(email.trim().toLowerCase())
+      : undefined;
+    const hashedPhone = phone
+      ? sha256Hex(phone.replace(/[^0-9]/g, ""))
+      : undefined;
 
     const tiktokPayload = {
       pixel_code: TIKTOK_PIXEL_ID,
@@ -47,7 +53,7 @@ export const handler = async (event) => {
         page_url,
         content_id,
         content_type,
-        content_name
+        content_name,
       },
       user: {
         ...(hashedEmail ? { email: hashedEmail } : {}),
@@ -55,30 +61,30 @@ export const handler = async (event) => {
         ...(ttclid ? { ttclid } : {}),
         ...(ttp ? { ttp } : {}),
         client_ip,
-        client_user_agent
-      }
+        client_user_agent,
+      },
     };
 
     const url = `https://business-api.tiktok.com/open_api/v1.3/event/track/?access_token=${encodeURIComponent(TIKTOK_ACCESS_TOKEN)}`;
     const res = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(tiktokPayload)
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(tiktokPayload),
     });
 
     const responseData = await res.json();
-    
-    console.log('TikTok API response:', responseData);
+
+    console.log("TikTok API response:", responseData);
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ ok: true, tiktokResponse: responseData })
+      body: JSON.stringify({ ok: true, tiktokResponse: responseData }),
     };
   } catch (err) {
-    console.error('track-tiktok error', err);
+    console.error("track-tiktok error", err);
     return {
       statusCode: 500,
-      body: JSON.stringify({ ok: false, error: String(err) })
+      body: JSON.stringify({ ok: false, error: String(err) }),
     };
   }
 };
