@@ -182,7 +182,7 @@ export default function MailerLiteForm({ onSubmit }: MailerLiteFormProps) {
           fbp,
           fbc,
           page_url: window.location.href,
-          custom_data: { content_name: 'claim_3_months_free' }
+          custom_data: { content_name: 'claim_3_months_free' },
           test_event_code: TEST81451
         };
 
