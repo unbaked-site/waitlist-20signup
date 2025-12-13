@@ -23,8 +23,13 @@ export default function MailerLiteForm({ onSubmit }: MailerLiteFormProps) {
       const handleSubmit = (e: Event) => {
         e.preventDefault();
 
-        // Submit form data to MailerLite
+        // generate unique event id (useful for later Conversions API dedupe)
+        const eventId = 'evt-' + Date.now().toString(36);
+
+        // Build FormData once
         const formData = new FormData(form);
+
+        // Submit form data to MailerLite (existing behaviour)
         fetch(
           "https://assets.mailerlite.com/jsonp/1955610/forms/172579220566837150/subscribe",
           {
@@ -32,24 +37,57 @@ export default function MailerLiteForm({ onSubmit }: MailerLiteFormProps) {
             body: formData,
           },
         )
-          .then(() => {
-            // Show success message
-            const successBody = document.querySelector(
-              ".ml-form-successBody",
-            ) as HTMLElement;
-            const formBody = document.querySelector(
-              ".ml-form-embedBodyDefault",
-            ) as HTMLElement;
-            if (successBody && formBody) {
-              successBody.style.display = "block";
-              formBody.style.display = "none";
+          .then(async () => {
+            // Show success message (same as before)
+            try {
+              const successBody = document.querySelector(".ml-form-successBody") as HTMLElement;
+              const formBody = document.querySelector(".ml-form-embedBodyDefault") as HTMLElement;
+              if (successBody && formBody) {
+                successBody.style.display = "block";
+                formBody.style.display = "none";
+              }
+            } catch (err) {
+              // do not block the flow for UI issues
+              console.warn('success UI update failed', err);
             }
 
-            // Increment waitlist count
+            // Increment waitlist count callback
             if (onSubmit) onSubmit();
+
+            // --- Now emit tracking (after successful subscribe) ---
+            try {
+              // dataLayer push for GTM (optional)
+              (window as any).dataLayer = (window as any).dataLayer || [];
+              (window as any).dataLayer.push({
+                event: 'submit_application',
+                event_id: eventId,
+                content_name: 'claim_3_months_free'
+              });
+            } catch (err) {
+              console.warn('dataLayer push failed', err);
+            }
+
+            // Fire Meta pixel (client) with exact event name "submit application"
+            try {
+              if (typeof (window as any).fbq === 'function') {
+                // send the event; include event_id in payload for later dedupe
+                (window as any).fbq(
+                  'track',
+                  'submit application',
+                  { content_name: 'claim_3_months_free', event_id: eventId },
+                  { eventID: eventId }
+                );
+              } else {
+                console.warn('fbq not found on page');
+              }
+            } catch (err) {
+              console.warn('fbq track error', err);
+            }
           })
           .catch((error) => {
+            // Keep the original error behaviour and log it
             console.error("Form submission error:", error);
+            // Optional: still attempt to fire tracking if you prefer — currently we do not
           });
       };
       form.addEventListener("submit", handleSubmit);
