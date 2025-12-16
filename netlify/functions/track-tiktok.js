@@ -26,7 +26,6 @@ export const handler = async (event) => {
       content_name,
       ttclid,
       ttp,
-      test_event_code,
     } = body;
 
     const timestamp = Math.floor(Date.now() / 1000);
