@@ -3,12 +3,13 @@
   <head>
     <!-- Meta Pixel Code -->
     <script>
-      (function() {
+      (function () {
         const hostname = window.location.hostname;
-        const isProduction = hostname === 'unbakedapp.com' || hostname === 'www.unbakedapp.com';
+        const isProduction =
+          hostname === "unbakedapp.com" || hostname === "www.unbakedapp.com";
 
         if (!isProduction) {
-          console.log('Meta Pixel: Skipped on non-production domain', hostname);
+          console.log("Meta Pixel: Skipped on non-production domain", hostname);
           return;
         }
 
@@ -46,12 +47,13 @@
     />
     <!-- Google Tag Manager -->
     <script>
-      (function() {
+      (function () {
         const hostname = window.location.hostname;
-        const isProduction = hostname === 'unbakedapp.com' || hostname === 'www.unbakedapp.com';
+        const isProduction =
+          hostname === "unbakedapp.com" || hostname === "www.unbakedapp.com";
 
         if (!isProduction) {
-          console.log('GTM: Skipped on non-production domain', hostname);
+          console.log("GTM: Skipped on non-production domain", hostname);
           return;
         }
 
@@ -70,12 +72,16 @@
     <!-- End Google Tag Manager -->
     <!-- TikTok Pixel Code -->
     <script>
-      (function() {
+      (function () {
         const hostname = window.location.hostname;
-        const isProduction = hostname === 'unbakedapp.com' || hostname === 'www.unbakedapp.com';
+        const isProduction =
+          hostname === "unbakedapp.com" || hostname === "www.unbakedapp.com";
 
         if (!isProduction) {
-          console.log('TikTok Pixel: Skipped on non-production domain', hostname);
+          console.log(
+            "TikTok Pixel: Skipped on non-production domain",
+            hostname,
+          );
           return;
         }
 
@@ -137,18 +143,19 @@
     <!-- End TikTok Pixel Code -->
     <!-- Google tag (gtag.js) -->
     <script>
-      (function() {
+      (function () {
         const hostname = window.location.hostname;
-        const isProduction = hostname === 'unbakedapp.com' || hostname === 'www.unbakedapp.com';
+        const isProduction =
+          hostname === "unbakedapp.com" || hostname === "www.unbakedapp.com";
 
         if (!isProduction) {
-          console.log('GA4: Skipped on non-production domain', hostname);
+          console.log("GA4: Skipped on non-production domain", hostname);
           return;
         }
 
-        const script = document.createElement('script');
+        const script = document.createElement("script");
         script.async = true;
-        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-DREERNCE4L';
+        script.src = "https://www.googletagmanager.com/gtag/js?id=G-DREERNCE4L";
         document.head.appendChild(script);
 
         window.dataLayer = window.dataLayer || [];

@@ -6,234 +6,274 @@ interface MailerLiteFormProps {
 
 export default function MailerLiteForm({ onSubmit }: MailerLiteFormProps) {
   useEffect(() => {
-  // Load MailerLite scripts
-  const script1 = document.createElement("script");
-  script1.src =
-    "https://groot.mailerlite.com/js/w/webforms.min.js?v176e10baa5e7ed80d35ae235be3d5024";
-  script1.type = "text/javascript";
-  document.body.appendChild(script1);
+    // Load MailerLite scripts
+    const script1 = document.createElement("script");
+    script1.src =
+      "https://groot.mailerlite.com/js/w/webforms.min.js?v176e10baa5e7ed80d35ae235be3d5024";
+    script1.type = "text/javascript";
+    document.body.appendChild(script1);
 
-  const script2 = document.createElement("script");
-  script2.innerHTML = `fetch("https://assets.mailerlite.com/jsonp/1955610/forms/172579220566837150/takel")`;
-  document.body.appendChild(script2);
+    const script2 = document.createElement("script");
+    script2.innerHTML = `fetch("https://assets.mailerlite.com/jsonp/1955610/forms/172579220566837150/takel")`;
+    document.body.appendChild(script2);
 
-  // Add form submission handler
-  const form = document.querySelector(".ml-block-form") as HTMLFormElement;
-  if (form) {
-   const handleSubmit = (e: Event) => {
-  e.preventDefault();
+    // Add form submission handler
+    const form = document.querySelector(".ml-block-form") as HTMLFormElement;
+    if (form) {
+      const handleSubmit = (e: Event) => {
+        e.preventDefault();
 
-  // -------------------------
-  // 1) generate unique event id (persisted for the session)
-  // -------------------------
-  let eventId = sessionStorage.getItem('capi_event_id');
-  if (!eventId) {
-    eventId = 'evt-' + Date.now().toString(36);
-    try {
-      sessionStorage.setItem('capi_event_id', eventId);
-    } catch (err) {
-      // sessionStorage may throw if user blocks storage — ignore
+        // -------------------------
+        // 1) generate unique event id (persisted for the session)
+        // -------------------------
+        let eventId = sessionStorage.getItem("capi_event_id");
+        if (!eventId) {
+          eventId = "evt-" + Date.now().toString(36);
+          try {
+            sessionStorage.setItem("capi_event_id", eventId);
+          } catch (err) {
+            // sessionStorage may throw if user blocks storage — ignore
+          }
+        }
+
+        // Build FormData once
+        const formData = new FormData(form);
+
+        // Try to extract email (robustly: several possible field names)
+        const getEmailFromForm = () => {
+          const emailInput = form.querySelector(
+            'input[type="email"]',
+          ) as HTMLInputElement | null;
+          if (emailInput && emailInput.value) return emailInput.value.trim();
+
+          const fdEmail = formData.get("email");
+          if (fdEmail && typeof fdEmail === "string") return fdEmail.trim();
+
+          const fdAlt =
+            formData.get("fields[email]") || formData.get("fields%5Bemail%5D");
+          if (fdAlt && typeof fdAlt === "string") return fdAlt.trim();
+
+          const named = form.querySelector(
+            'input[name*="email"]',
+          ) as HTMLInputElement | null;
+          if (named && named.value) return named.value.trim();
+
+          return null;
+        };
+
+        const userEmail = getEmailFromForm();
+        const phoneInput = form.querySelector(
+          'input[type="tel"], input[name*="phone"]',
+        ) as HTMLInputElement | null;
+        const userPhone =
+          phoneInput && phoneInput.value ? phoneInput.value.trim() : null;
+
+        // -------------------------
+        // 2) Submit form data to MailerLite (existing behaviour)
+        // -------------------------
+        fetch(
+          "https://assets.mailerlite.com/jsonp/1955610/forms/172579220566837150/subscribe",
+          {
+            method: "POST",
+            body: formData,
+          },
+        )
+          .then(async () => {
+            // Show success message (same as before)
+            try {
+              const successBody = document.querySelector(
+                ".ml-form-successBody",
+              ) as HTMLElement;
+              const formBody = document.querySelector(
+                ".ml-form-embedBodyDefault",
+              ) as HTMLElement;
+              if (successBody && formBody) {
+                successBody.style.display = "block";
+                formBody.style.display = "none";
+              }
+            } catch (err) {
+              console.warn("success UI update failed", err);
+            }
+
+            // Increment waitlist count callback
+            if (onSubmit) onSubmit();
+
+            // --- Now emit tracking (after successful subscribe) ---
+
+            // 3) dataLayer push for GTM (optional)
+            try {
+              (window as any).dataLayer = (window as any).dataLayer || [];
+              (window as any).dataLayer.push({
+                event: "submit_application",
+                event_id: eventId,
+                content_name: "claim_3_months_free",
+              });
+            } catch (err) {
+              console.warn("dataLayer push failed", err);
+            }
+
+            // 4) Fire Meta pixel (client) — unchanged
+            try {
+              if (typeof (window as any).fbq === "function") {
+                (window as any).fbq(
+                  "track",
+                  "submit application",
+                  { content_name: "claim_3_months_free", event_id: eventId },
+                  { eventID: eventId },
+                );
+              } else {
+                console.warn("fbq not found on page");
+              }
+            } catch (err) {
+              console.warn("fbq track error", err);
+            }
+
+            // 5) Fire TikTok browser pixel (client)
+            try {
+              if (
+                typeof (window as any).ttq === "object" &&
+                typeof (window as any).ttq.track === "function"
+              ) {
+                (window as any).ttq.track("Join the waitlist", {
+                  event_id: eventId,
+                  page_url: window.location.href,
+                  content_name: "claim_3_months_free",
+                });
+              } else {
+                console.warn("ttq not found on page");
+              }
+            } catch (err) {
+              console.warn("ttq track error", err);
+            }
+
+            // 6) Server-side event: call Netlify function to forward to TikTok Events API
+            try {
+              const hostname = window.location.hostname;
+              const isProduction =
+                hostname === "unbakedapp.com" ||
+                hostname === "www.unbakedapp.com";
+
+              if (isProduction) {
+                const params = new URLSearchParams(window.location.search);
+                const ttclid = params.get("ttclid");
+                const ttp = params.get("ttp");
+
+                const serverPayload = {
+                  event_name: "Join the waitlist",
+                  event_id: eventId,
+                  email: userEmail || null,
+                  phone: userPhone || null,
+                  page_url: window.location.href,
+                  content_id: "waitlist_button",
+                  content_type: "waitlist",
+                  content_name: "claim_3_months_free",
+                  ttclid: ttclid || null,
+                  ttp: ttp || null,
+                };
+
+                fetch("/.netlify/functions/track-tiktok", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify(serverPayload),
+                })
+                  .then((res) => {
+                    if (!res.ok) {
+                      console.warn(
+                        "Server tracking call failed",
+                        res.statusText,
+                      );
+                    }
+                  })
+                  .catch((err) => {
+                    console.warn("Server tracking error", err);
+                  });
+              } else {
+                console.log(
+                  "TikTok Conversions API: Skipped on non-production domain",
+                );
+              }
+            } catch (err) {
+              console.warn("server event call error", err);
+            }
+
+            // --- Server-side event: call Netlify function to forward to Meta Conversions API ---
+            try {
+              const hostname = window.location.hostname;
+              const isProduction =
+                hostname === "unbakedapp.com" ||
+                hostname === "www.unbakedapp.com";
+
+              if (isProduction) {
+                const getCookie = (name: string): string | null => {
+                  const m = document.cookie.match(
+                    "(^|;)\\s*" + name + "\\s*=\\s*([^;]+)",
+                  );
+                  return m ? (m.pop() as string) : null;
+                };
+
+                const fbp = getCookie("_fbp") || null;
+                const fbc = getCookie("_fbc") || null;
+
+                const metaPayload = {
+                  event_name: "submit application",
+                  event_id: eventId,
+                  email: userEmail || null,
+                  fbp,
+                  fbc,
+                  page_url: window.location.href,
+                  custom_data: { content_name: "claim_3_months_free" },
+                };
+
+                fetch("/.netlify/functions/meta-capi", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify(metaPayload),
+                })
+                  .then((res) => {
+                    if (!res.ok) {
+                      res
+                        .text()
+                        .then((txt) =>
+                          console.warn(
+                            "Meta CAPI server call failed",
+                            res.status,
+                            txt,
+                          ),
+                        )
+                        .catch(() => {});
+                    }
+                  })
+                  .catch((err) => {
+                    console.warn("Meta CAPI server call error", err);
+                  });
+              } else {
+                console.log(
+                  "Meta Conversions API: Skipped on non-production domain",
+                );
+              }
+            } catch (err) {
+              console.warn("meta server call setup error", err);
+            }
+          })
+          .catch((error) => {
+            console.error("Form submission error:", error);
+          });
+      };
+
+      form.addEventListener("submit", handleSubmit);
+
+      return () => {
+        form.removeEventListener("submit", handleSubmit);
+        if (script1.parentNode) script1.parentNode.removeChild(script1);
+        if (script2.parentNode) script2.parentNode.removeChild(script2);
+      };
     }
-  }
-
-  // Build FormData once
-  const formData = new FormData(form);
-
-  // Try to extract email (robustly: several possible field names)
-  const getEmailFromForm = () => {
-    const emailInput = form.querySelector('input[type="email"]') as HTMLInputElement | null;
-    if (emailInput && emailInput.value) return emailInput.value.trim();
-
-    const fdEmail = formData.get('email');
-    if (fdEmail && typeof fdEmail === 'string') return fdEmail.trim();
-
-    const fdAlt = formData.get('fields[email]') || formData.get('fields%5Bemail%5D');
-    if (fdAlt && typeof fdAlt === 'string') return fdAlt.trim();
-
-    const named = form.querySelector('input[name*="email"]') as HTMLInputElement | null;
-    if (named && named.value) return named.value.trim();
-
-    return null;
-  };
-
-  const userEmail = getEmailFromForm();
-  const phoneInput = form.querySelector('input[type="tel"], input[name*="phone"]') as HTMLInputElement | null;
-  const userPhone = phoneInput && phoneInput.value ? phoneInput.value.trim() : null;
-
-  // -------------------------
-  // 2) Submit form data to MailerLite (existing behaviour)
-  // -------------------------
-  fetch(
-    "https://assets.mailerlite.com/jsonp/1955610/forms/172579220566837150/subscribe",
-    {
-      method: "POST",
-      body: formData,
-    },
-  )
-    .then(async () => {
-      // Show success message (same as before)
-      try {
-        const successBody = document.querySelector(".ml-form-successBody") as HTMLElement;
-        const formBody = document.querySelector(".ml-form-embedBodyDefault") as HTMLElement;
-        if (successBody && formBody) {
-          successBody.style.display = "block";
-          formBody.style.display = "none";
-        }
-      } catch (err) {
-        console.warn('success UI update failed', err);
-      }
-
-      // Increment waitlist count callback
-      if (onSubmit) onSubmit();
-
-      // --- Now emit tracking (after successful subscribe) ---
-
-      // 3) dataLayer push for GTM (optional)
-      try {
-        (window as any).dataLayer = (window as any).dataLayer || [];
-        (window as any).dataLayer.push({
-          event: 'submit_application',
-          event_id: eventId,
-          content_name: 'claim_3_months_free'
-        });
-      } catch (err) {
-        console.warn('dataLayer push failed', err);
-      }
-
-      // 4) Fire Meta pixel (client) — unchanged
-      try {
-        if (typeof (window as any).fbq === 'function') {
-          (window as any).fbq(
-            'track',
-            'submit application',
-            { content_name: 'claim_3_months_free', event_id: eventId },
-            { eventID: eventId }
-          );
-        } else {
-          console.warn('fbq not found on page');
-        }
-      } catch (err) {
-        console.warn('fbq track error', err);
-      }
-
-      // 5) Fire TikTok browser pixel (client)
-      try {
-        if (typeof (window as any).ttq === 'object' && typeof (window as any).ttq.track === 'function') {
-          (window as any).ttq.track('Join the waitlist', {
-            event_id: eventId,
-            page_url: window.location.href,
-            content_name: 'claim_3_months_free'
-          });
-        } else {
-          console.warn('ttq not found on page');
-        }
-      } catch (err) {
-        console.warn('ttq track error', err);
-      }
-
-      // 6) Server-side event: call Netlify function to forward to TikTok Events API
-      try {
-        const hostname = window.location.hostname;
-        const isProduction = hostname === 'unbakedapp.com' || hostname === 'www.unbakedapp.com';
-
-        if (isProduction) {
-          const params = new URLSearchParams(window.location.search);
-          const ttclid = params.get('ttclid');
-          const ttp = params.get('ttp');
-
-          const serverPayload = {
-            event_name: 'Join the waitlist',
-            event_id: eventId,
-            email: userEmail || null,
-            phone: userPhone || null,
-            page_url: window.location.href,
-            content_id: 'waitlist_button',
-            content_type: 'waitlist',
-            content_name: 'claim_3_months_free',
-            ttclid: ttclid || null,
-            ttp: ttp || null
-          };
-
-          fetch('/.netlify/functions/track-tiktok', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(serverPayload)
-          }).then((res) => {
-            if (!res.ok) {
-              console.warn('Server tracking call failed', res.statusText);
-            }
-          }).catch((err) => {
-            console.warn('Server tracking error', err);
-          });
-        } else {
-          console.log('TikTok Conversions API: Skipped on non-production domain');
-        }
-      } catch (err) {
-        console.warn('server event call error', err);
-      }
-
-      // --- Server-side event: call Netlify function to forward to Meta Conversions API ---
-      try {
-        const hostname = window.location.hostname;
-        const isProduction = hostname === 'unbakedapp.com' || hostname === 'www.unbakedapp.com';
-
-        if (isProduction) {
-          const getCookie = (name: string): string | null => {
-            const m = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
-            return m ? m.pop() as string : null;
-          };
-
-          const fbp = getCookie('_fbp') || null;
-          const fbc = getCookie('_fbc') || null;
-
-          const metaPayload = {
-            event_name: 'submit application',
-            event_id: eventId,
-            email: userEmail || null,
-            fbp,
-            fbc,
-            page_url: window.location.href,
-            custom_data: { content_name: 'claim_3_months_free' }
-          };
-
-          fetch('/.netlify/functions/meta-capi', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(metaPayload)
-          }).then((res) => {
-            if (!res.ok) {
-              res.text().then(txt => console.warn('Meta CAPI server call failed', res.status, txt)).catch(()=>{});
-            }
-          }).catch((err) => {
-            console.warn('Meta CAPI server call error', err);
-          });
-        } else {
-          console.log('Meta Conversions API: Skipped on non-production domain');
-        }
-      } catch (err) {
-        console.warn('meta server call setup error', err);
-      }
-
-    })
-    .catch((error) => {
-      console.error("Form submission error:", error);
-    });
-    };
-    
-    form.addEventListener("submit", handleSubmit);
 
     return () => {
-      form.removeEventListener("submit", handleSubmit);
       if (script1.parentNode) script1.parentNode.removeChild(script1);
       if (script2.parentNode) script2.parentNode.removeChild(script2);
     };
-  }
-
-  return () => {
-    if (script1.parentNode) script1.parentNode.removeChild(script1);
-    if (script2.parentNode) script2.parentNode.removeChild(script2);
-  };
-}, [onSubmit]);
+  }, [onSubmit]);
 
   return (
     <div>
