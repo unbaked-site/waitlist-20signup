@@ -136,17 +136,29 @@
     </script>
     <!-- End TikTok Pixel Code -->
     <!-- Google tag (gtag.js) -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-DREERNCE4L"
-    ></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
-      gtag("config", "G-DREERNCE4L");
+      (function() {
+        const hostname = window.location.hostname;
+        const isProduction = hostname === 'unbakedapp.com' || hostname === 'www.unbakedapp.com';
+
+        if (!isProduction) {
+          console.log('GA4: Skipped on non-production domain', hostname);
+          return;
+        }
+
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-DREERNCE4L';
+        document.head.appendChild(script);
+
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+          dataLayer.push(arguments);
+        }
+        window.gtag = gtag;
+        gtag("js", new Date());
+        gtag("config", "G-DREERNCE4L");
+      })();
     </script>
 
     <meta charset="UTF-8" />
