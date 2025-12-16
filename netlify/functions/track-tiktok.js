@@ -45,24 +45,27 @@ export const handler = async (event) => {
       : undefined;
 
     const tiktokPayload = {
-      pixel_code: TIKTOK_PIXEL_ID,
-      timestamp,
-      event: event_name,
-      event_id,
-      properties: {
-        page_url,
-        content_id,
-        content_type,
-        content_name,
-      },
-      user: {
-        ...(hashedEmail ? { email: hashedEmail } : {}),
-        ...(hashedPhone ? { phone: hashedPhone } : {}),
-        ...(ttclid ? { ttclid } : {}),
-        ...(ttp ? { ttp } : {}),
-        client_ip,
-        client_user_agent,
-      },
+      data: [
+        {
+          event_name,
+          event_time: timestamp,
+          event_id,
+          user_data: {
+            ...(hashedEmail ? { email: hashedEmail } : {}),
+            ...(hashedPhone ? { phone: hashedPhone } : {}),
+            ...(ttclid ? { ttclid } : {}),
+            ...(ttp ? { ttp } : {}),
+            ...(client_ip ? { ip: client_ip } : {}),
+            ...(client_user_agent ? { user_agent: client_user_agent } : {}),
+          },
+          properties: {
+            ...(content_id ? { content_id } : {}),
+            ...(content_type ? { content_type } : {}),
+            ...(content_name ? { content_name } : {}),
+            ...(page_url ? { url: page_url } : {}),
+          },
+        },
+      ],
     };
 
     const url = `https://business-api.tiktok.com/open_api/v1.3/event/track/?access_token=${encodeURIComponent(TIKTOK_ACCESS_TOKEN)}`;
