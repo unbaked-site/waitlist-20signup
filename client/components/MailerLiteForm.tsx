@@ -169,7 +169,6 @@ export default function MailerLiteForm({ onSubmit }: MailerLiteFormProps) {
                   content_name: "claim_3_months_free",
                   ttclid: ttclid || null,
                   ttp: ttp || null,
-                  test_event_code: "TEST67887",
                 };
 
                 fetch("/.netlify/functions/track-tiktok", {
