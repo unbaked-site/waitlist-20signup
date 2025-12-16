@@ -133,69 +133,83 @@ export default function MailerLiteForm({ onSubmit }: MailerLiteFormProps) {
 
       // 6) Server-side event: call Netlify function to forward to TikTok Events API
       try {
-        const params = new URLSearchParams(window.location.search);
-        const ttclid = params.get('ttclid');
-        const ttp = params.get('ttp');
+        const hostname = window.location.hostname;
+        const isProduction = hostname === 'unbakedapp.com' || hostname === 'www.unbakedapp.com';
 
-        const serverPayload = {
-          event_name: 'Join the waitlist', // must match TikTok Event Builder
-          event_id: eventId,
-          email: userEmail || null,
-          phone: userPhone || null,
-          page_url: window.location.href,
-          content_id: 'waitlist_button',
-          content_type: 'waitlist',
-          content_name: 'claim_3_months_free',
-          ttclid: ttclid || null,
-          ttp: ttp || null
-        };
+        if (isProduction) {
+          const params = new URLSearchParams(window.location.search);
+          const ttclid = params.get('ttclid');
+          const ttp = params.get('ttp');
 
-        fetch('/.netlify/functions/track-tiktok', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(serverPayload)
-        }).then((res) => {
-          if (!res.ok) {
-            console.warn('Server tracking call failed', res.statusText);
-          }
-        }).catch((err) => {
-          console.warn('Server tracking error', err);
-        });
+          const serverPayload = {
+            event_name: 'Join the waitlist',
+            event_id: eventId,
+            email: userEmail || null,
+            phone: userPhone || null,
+            page_url: window.location.href,
+            content_id: 'waitlist_button',
+            content_type: 'waitlist',
+            content_name: 'claim_3_months_free',
+            ttclid: ttclid || null,
+            ttp: ttp || null
+          };
+
+          fetch('/.netlify/functions/track-tiktok', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(serverPayload)
+          }).then((res) => {
+            if (!res.ok) {
+              console.warn('Server tracking call failed', res.statusText);
+            }
+          }).catch((err) => {
+            console.warn('Server tracking error', err);
+          });
+        } else {
+          console.log('TikTok Conversions API: Skipped on non-production domain');
+        }
       } catch (err) {
         console.warn('server event call error', err);
       }
 
       // --- Server-side event: call Netlify function to forward to Meta Conversions API ---
       try {
-        const getCookie = (name: string): string | null => {
-          const m = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
-          return m ? m.pop() as string : null;
-        };
+        const hostname = window.location.hostname;
+        const isProduction = hostname === 'unbakedapp.com' || hostname === 'www.unbakedapp.com';
 
-        const fbp = getCookie('_fbp') || null;
-        const fbc = getCookie('_fbc') || null;
+        if (isProduction) {
+          const getCookie = (name: string): string | null => {
+            const m = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+            return m ? m.pop() as string : null;
+          };
 
-        const metaPayload = {
-          event_name: 'submit application',
-          event_id: eventId,
-          email: userEmail || null,
-          fbp,
-          fbc,
-          page_url: window.location.href,
-          custom_data: { content_name: 'claim_3_months_free' }
-        };
+          const fbp = getCookie('_fbp') || null;
+          const fbc = getCookie('_fbc') || null;
 
-        fetch('/.netlify/functions/meta-capi', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(metaPayload)
-        }).then((res) => {
-          if (!res.ok) {
-            res.text().then(txt => console.warn('Meta CAPI server call failed', res.status, txt)).catch(()=>{});
-          }
-        }).catch((err) => {
-          console.warn('Meta CAPI server call error', err);
-        });
+          const metaPayload = {
+            event_name: 'submit application',
+            event_id: eventId,
+            email: userEmail || null,
+            fbp,
+            fbc,
+            page_url: window.location.href,
+            custom_data: { content_name: 'claim_3_months_free' }
+          };
+
+          fetch('/.netlify/functions/meta-capi', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(metaPayload)
+          }).then((res) => {
+            if (!res.ok) {
+              res.text().then(txt => console.warn('Meta CAPI server call failed', res.status, txt)).catch(()=>{});
+            }
+          }).catch((err) => {
+            console.warn('Meta CAPI server call error', err);
+          });
+        } else {
+          console.log('Meta Conversions API: Skipped on non-production domain');
+        }
       } catch (err) {
         console.warn('meta server call setup error', err);
       }
