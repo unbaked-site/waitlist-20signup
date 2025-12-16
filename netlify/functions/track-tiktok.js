@@ -67,6 +67,7 @@ export const handler = async (event) => {
           },
         },
       ],
+      ...(test_event_code ? { test_event_code } : {}),
     };
 
     const url = `https://business-api.tiktok.com/open_api/v1.3/event/track/?access_token=${encodeURIComponent(TIKTOK_ACCESS_TOKEN)}`;
