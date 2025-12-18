@@ -1,4 +1,7 @@
+import { useCanonical } from "../hooks/use-canonical";
+
 export default function Terms() {
+  useCanonical("/terms");
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-3xl mx-auto px-6 md:px-8 py-12 md:py-16 text-black">
