@@ -7,7 +7,29 @@
 [functions]
   external_node_modules = ["express"]
   node_bundler = "esbuild"
-  
+
+# Redirect www to non-www with permanent 301
+[[redirects]]
+  from = "https://www.unbakedapp.com/*"
+  to = "https://unbakedapp.com/:splat"
+  status = 301
+  force = true
+
+# Redirect http to https (non-www)
+[[redirects]]
+  from = "http://unbakedapp.com/*"
+  to = "https://unbakedapp.com/:splat"
+  status = 301
+  force = true
+
+# Redirect http://www to https non-www
+[[redirects]]
+  from = "http://www.unbakedapp.com/*"
+  to = "https://unbakedapp.com/:splat"
+  status = 301
+  force = true
+
+# API functions redirect
 [[redirects]]
   force = true
   from = "/api/*"
