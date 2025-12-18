@@ -3,6 +3,7 @@ import MailerLiteForm from "../components/MailerLiteForm";
 import { useCanonical } from "../hooks/use-canonical";
 
 export default function Index() {
+  useCanonical("/");
   const [waitlistCount, setWaitlistCount] = useState(284);
 
   // Load waitlist count from localStorage on mount
