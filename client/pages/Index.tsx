@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import MailerLiteForm from "../components/MailerLiteForm";
+import { useCanonical } from "../hooks/use-canonical";
 
 export default function Index() {
   const [waitlistCount, setWaitlistCount] = useState(284);
