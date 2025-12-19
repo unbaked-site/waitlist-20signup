@@ -74,7 +74,14 @@ export default function Index() {
             </div>
 
             {/* Hero Headline and Subheadline */}
-            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-center md:text-center lg:text-left bg-gradient-azure bg-clip-text text-transparent px-8 md:px-16 lg:px-0 lg:mb-6">
+            <h1
+              className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-center md:text-center lg:text-left bg-clip-text text-transparent px-8 md:px-16 lg:px-0 lg:mb-6"
+              style={{
+                background: 'linear-gradient(90deg, #01bcff, #00b4cc, #1f80ff)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}
+            >
               Less weed. More you.
             </h1>
             <p className="text-gray-300 text-[10px] md:text-[11px] lg:text-lg text-center md:text-center lg:text-left max-w-2xl px-8 md:px-16 lg:px-0 leading-tight lg:leading-relaxed">
