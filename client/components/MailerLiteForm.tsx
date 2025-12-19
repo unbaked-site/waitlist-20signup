@@ -13,10 +13,6 @@ export default function MailerLiteForm({ onSubmit }: MailerLiteFormProps) {
     script1.type = "text/javascript";
     document.body.appendChild(script1);
 
-    const script2 = document.createElement("script");
-    script2.innerHTML = `(async () => { try { await fetch("https://assets.mailerlite.com/jsonp/1955610/forms/172579220566837150/takel"); } catch (e) { /* ignore fetch errors */ } })()`;
-    document.body.appendChild(script2);
-
     // Add form submission handler
     const form = document.querySelector(".ml-block-form") as HTMLFormElement;
     if (form) {
