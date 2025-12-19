@@ -14,7 +14,7 @@ export default function MailerLiteForm({ onSubmit }: MailerLiteFormProps) {
     document.body.appendChild(script1);
 
     const script2 = document.createElement("script");
-    script2.innerHTML = `fetch("https://assets.mailerlite.com/jsonp/1955610/forms/172579220566837150/takel")`;
+    script2.innerHTML = `fetch("https://assets.mailerlite.com/jsonp/1955610/forms/172579220566837150/takel").catch(() => {})`;
     document.body.appendChild(script2);
 
     // Add form submission handler
