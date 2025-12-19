@@ -77,9 +77,9 @@ export default function Index() {
             <h1
               className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-center md:text-center lg:text-left bg-clip-text text-transparent px-8 md:px-16 lg:px-0 lg:mb-6"
               style={{
-                background: 'linear-gradient(90deg, #01bcff, #00b4cc, #1f80ff)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
+                background: "linear-gradient(90deg, #01bcff, #00b4cc, #1f80ff)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
               }}
             >
               Less weed. More you.
